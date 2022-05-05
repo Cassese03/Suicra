@@ -423,19 +423,19 @@
                             <thead>
                             <tr>
 
-                                <th class="col-xs-5 col-sm-5 col-md-5" style="text-align: center">
+                                <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
                                     <label style="color:black;">Articolo</label>
                                 </th>
 
-                                <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
+                                <th class="col-xs-3 col-sm-3 col-md-3" style="text-align: center">
                                     <label style="color:black;">Quantita'</label>
                                 </th>
 
-                                <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
+                                <th class="col-xs-2 col-sm-2 col-md-2" style="text-align: center">
                                     <label style="color:black;">Lotto</label>
                                 </th>
 
-                                <th class="col-xs-2 col-sm-2 col-md-2" style="text-align: center">
+                                <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
                                     <label style="color:black;">Azioni</label>
                                 </th>
 
@@ -449,32 +449,32 @@
                             <tr style="border:1px solid black;border-collapse: collapse;border-radius: 10px;">
                                 <div class="row">
                                     <?php if($r->TipoPC == 'P'){?>
-                                        <td class="col-xs-5 col-sm-5 col-md-5" style="height: 35px;text-align: left;padding-left: -5px;">
+                                        <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left: -5px;">
                                             <label style="color:black;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
                                         </td>
                                     <?php }else{?>
-                                        <td class="col-xs-5 col-sm-5 col-md-5" style="height: 35px;text-align: left;padding-left:50px;">
+                                        <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left:50px;">
                                             <label style="color:blue;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
                                         </td>
                                     <?php } ?>
                                     <?php if($r->TipoPC == 'P'){?>
 
-                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: right">
-                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo number_format($r->Qta, 3, '.', '');?></label>
+                                    <td class="col-xs-3 col-sm-3 col-md-3" style="height: 35px;text-align: right">
+                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;width:50%"><?php echo number_format($r->Qta, 3, '.', '');?></label>
                                     </td>
 
                                     <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: center">
-                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo $r->Cd_ARLotto?></label>
+                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;width:50%"><?php echo $r->Cd_ARLotto?></label>
                                     </td>
 
                                     <?php }else{ ?>
 
-                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: right">
-                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: right" id="qta_<?php echo $r->Id_DORig ?>" onblur="cambiaqta(<?php echo $r->Id_DORig?>)" value="<?php echo number_format($r->Qta, 3, '.', '');?>">
+                                    <td class="col-xs-3 col-sm-3 col-md-3" style="height: 35px;text-align: right">
+                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: right;width:150%" id="qta_<?php echo $r->Id_DORig ?>" onblur="cambiaqta(<?php echo $r->Id_DORig?>)" value="<?php echo number_format($r->Qta, 3, '.', '');?>">
                                     </td>
 
                                     <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: right">
-                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: center" id="lotto_<?php echo $r->Id_DORig?>" onblur="cambialotto(<?php echo $r->Id_DORig?>)" value="<?php echo $r->Cd_ARLotto?>">
+                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: center;width:150%" id="lotto_<?php echo $r->Id_DORig?>" onblur="cambialotto(<?php echo $r->Id_DORig?>)" value="<?php echo $r->Cd_ARLotto?>">
                                     </td>
 
                                     <?php } ?>
@@ -489,7 +489,7 @@
                                                     </svg></i></button>
                                             -->
                                             <input type="hidden" name="Id_DORig" value="<?php echo $r->Id_DORig ?>">
-                                            <button  style="width: 44px;height: 26px;" type="submit" name="elimina_riga" value="Elimina" class="btn btn-danger btn-sm" ><i class="bi bi-trash-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 18" style="margin-bottom: 10px;margin-right:20px">
+                                            <button  style="width: 44px;height: 26px;" type="submit" name="elimina_riga" value="Elimina" class="btn btn-danger btn-sm" ><i class="bi bi-trash-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-trash-fill" viewBox="2 0 16 18" style="margin-bottom: 10px;margin-right:20px">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                                     </svg></i></button>
                                             <?php } ?>
