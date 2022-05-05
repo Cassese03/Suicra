@@ -25,19 +25,27 @@ use Symfony\Component\VarDumper\Cloner\Data;
 
 class AjaxController extends Controller{
 
-    public function cambia_collo($dorig,$colli)
+    public function cambia_qta($dorig,$qta)
     {
 
-        DB::UPDATE("UPDATE DORIG SET xcolli = '$colli' WHERE Id_DORig = '$dorig'");
-        $QtaConf = DB::SELECT('SELECT * FROM DORig WHERE Id_DORig = \'' . $dorig . '\'')[0]->xqtaconf;
-        $quantita = intval($colli) * intval($QtaConf);
+        DB::UPDATE("UPDATE DORIG SET Qta = '$qta' WHERE Id_DORig = '$dorig'");
+    }
 
-        DB::UPDATE("UPDATE DORIG SET Qta = '$quantita' , QtaEvadibile = '$quantita' WHERE Id_DORig = '$dorig' ");
+    public function cambia_lotto($dorig,$lotto)
+    {
+        $riga = DB::SELECT('SELECT * FROM DORIG WHERE Id_DORig = \''.$dorig.'\'')[0];
+        $controllo_lotto = DB::SELECT('SELECT * FROM ARLotto where Cd_AR = \''.$riga->Cd_AR.'\' and Cd_ARLotto = \''.$lotto.'\'');
+        if(sizeof($controllo_lotto) != '0')
+            DB::UPDATE("UPDATE DORIG SET Cd_ARLotto = '$lotto' WHERE Id_DORig = '$dorig'");
+        else {
+            DB::table('ARLotto')->insertGetId(['Cd_AR' => $riga->Cd_AR, 'Cd_ARLotto' => $lotto, 'Descrizione' => 'Lotto '.$lotto]);
+            DB::UPDATE("UPDATE DORIG SET Cd_ARLotto = '$lotto' WHERE Id_DORig = '$dorig'");
+        }
     }
 
     public function cerca_articolo($q){
 
-        $articoli = DB::select('SELECT [Id_AR],[Cd_AR],[Descrizione] FROM AR where (Cd_AR Like \''.$q.'%\' or  Descrizione Like \'%'.$q.'%\' or CD_AR IN (SELECT CD_AR from ARAlias where Alias LIKE \'%'.$q.'%\'))  Order By Id_AR DESC');
+        $articoli = DB::select('SELECT [Id_AR],[Cd_AR],[Descrizione] FROM AR where (Cd_AR = \''.$q.'\' or  Descrizione = \''.$q.'\' or CD_AR IN (SELECT CD_AR from ARAlias where Alias = \''.$q.'\'))  Order By Id_AR DESC');
         if(sizeof($articoli)=='0') {
             $decoder = new Decoder($delimiter = '');
             $barcode = $decoder->decode($q);
@@ -128,10 +136,48 @@ class AjaxController extends Controller{
         <?php } // }
     }
 
+    public function visualizza_giacenza_lotto($articolo){
+
+        $data = strtotime('today');
+
+        $data = date('d-m-Y',$data);
+
+        $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_MG,Cd_ARLotto FROM MGMov WHERE Cd_AR = \''.$articolo.'\'  GROUP BY Cd_AR,Cd_ARLotto,Cd_MG HAVING SUM(QuantitaSign) > 0  ');
+
+        foreach ($giacenza as $g){
+            ?>
+            <li class="list-group-item" >
+                <a class="media" onclick="">
+                    <div class="media-body">
+                        <h5>Lotto : <?php echo $g->Cd_ARLotto;?></h5>
+                        <p>Giacenza: <?php echo $g->Giacenza ?></p>
+                    </div>
+                </a>
+            </li>
+        <?php }
+    }
+
+    public function visualizza_giacenza($articolo){
+
+        $data = strtotime('today');
+
+        $data = date('d-m-Y',$data);
+
+        $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_MG FROM MGMov WHERE Cd_AR = \''.$articolo.'\' GROUP BY Cd_AR,Cd_MG ORDER BY Cd_MG ASC');
+
+        foreach ($giacenza as $g){
+            ?>
+            <li class="list-group-item" >
+                <a class="media" onclick="">
+                    <div class="media-body">
+                        <h5><?php echo $g->Cd_MG ?> - Giacenza: <?php echo $g->Giacenza ?></h5>
+                    </div>
+                </a>
+            </li>
+        <?php }
+    }
+
     public function storialotto($articolo,$lotto){
-        $lotto = str_replace('slash','/',$lotto);
-        $lotto1 = DB::SELECT('SELECT * FROM MGMov WHERE Cd_AR = \''.$articolo.'\' AND Cd_MGEsercizio = \'2021\' AND Cd_ARLotto = \''.$lotto.'\' ORDER BY DataMov ASC , PartenzaArrivo Desc');
-        $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_MG,Cd_ARLotto FROM MGMov WHERE Cd_AR = \''.$articolo.'\' AND Cd_ARLotto = \''.$lotto.'\' GROUP BY Cd_AR,Cd_ARLotto,Cd_MG ');
         //echo 'SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_MG,Cd_ARLotto FROM MGMov WHERE Cd_AR = \''.$articolo.'\' AND Cd_ARLotto = \''.$lotto.'\' GROUP BY Cd_AR,Cd_ARLotto,Cd_MG HAVING SUM(QuantitaSign)>0';
         foreach ($lotto1 as $l){?>
             <li class="list-group-item">
@@ -1126,7 +1172,7 @@ class AjaxController extends Controller{
                 echo 'Nessun Articolo Trovato';
         }
         if($tipo == 'EAN'){
-            $articoli = DB::select('SELECT [Id_AR],[Cd_AR],[Descrizione] FROM AR where (Cd_AR Like \''.$q.'%\' or  Descrizione Like \'%'.$q.'%\' or CD_AR IN (SELECT CD_AR from ARAlias where Alias LIKE \'%'.$q.'%\'))  Order By Id_AR DESC');
+            $articoli = DB::select('SELECT [Id_AR],[Cd_AR],[Descrizione] FROM AR where (Cd_AR = \''.$q.'\' or  Descrizione = \''.$q.'\' or CD_AR IN (SELECT CD_AR from ARAlias where Alias = \''.$q.'\'))  Order By Id_AR DESC');
             if(sizeof($articoli)>0){
                 foreach($articoli as $articolo){ ?>
 
@@ -1155,7 +1201,7 @@ class AjaxController extends Controller{
             $disponibilita = DB::select('SELECT ISNULL(sum(QuantitaSign),0) as disponibilita from MGMOV where Cd_MGEsercizio = '.date('Y').' and Cd_AR = \'' . $articolo->Cd_AR . '\'');
             if (sizeof($disponibilita) > 0) {
                 $data =  date('Y-m-d',strtotime('today')) ;
-                $prova = DB::SELECT('SELECT ISNULL(sum(QuantitaSign),0) as disponibilita,Cd_ARLotto,Cd_MG from MGMOV where Cd_MGEsercizio = '.date('Y').' and Cd_AR = \'' . $articolo->Cd_AR . '\' and Cd_ARLotto IS NOT NULL and DataScadenza >= \''.$data.'\' group by Cd_ARLotto, Cd_MG HAVING SUM(QuantitaSign)!= 0  ');
+                $prova = DB::SELECT('SELECT ISNULL(sum(QuantitaSign),0) as disponibilita,Cd_ARLotto,Cd_MG from MGMOV where Cd_MGEsercizio = '.date('Y').' and Cd_AR = \'' . $articolo->Cd_AR . '\' and Cd_ARLotto IS NOT NULL group by Cd_ARLotto, Cd_MG HAVING SUM(QuantitaSign)!= 0  ');
             }
 
             ?>

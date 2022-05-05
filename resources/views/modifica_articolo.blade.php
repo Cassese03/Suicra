@@ -120,9 +120,10 @@
                         </div>
                         <br>
                         <input type="hidden" name="Cd_AR" value="<?php echo $articolo->Cd_AR ?>">
-                            <button type="submit" name="modifica_articolo" value="Modifica Articolo" class="btn btn-success mb-1 btn-block"  >Salva Modifiche Articolo</button>
-                            <button type="button" name="crea_lotto" class="btn btn-success mb-1 btn-block"   onclick="$('#modal_crea_lotto').modal('show');">Crea Lotto</button>
-                            <button type="button" name="visualizza_lotto" class="btn btn-success mb-1 btn-block" onclick="visualizza_lotti()" >Visualizza Lotti</button>
+                        <button type="submit" name="modifica_articolo" value="Modifica Articolo" class="btn btn-success mb-1 btn-block"  >Salva Modifiche Articolo</button>
+                          <?php /*   <button type="button" name="crea_lotto" class="btn btn-success mb-1 btn-block"   onclick="$('#modal_crea_lotto').modal('show');">Crea Lotto</button>
+                            <button type="button" name="visualizza_lotto" class="btn btn-success mb-1 btn-block" onclick="visualizza_lotti()" >Visualizza Lotti</button>*/?>
+                        <button type="button" name="visualizza_giacenza" value="visualizza_giacenza" class="btn btn-success mb-1 btn-block" onclick="visualizza_giacenza1()"  >Giacenza Articolo</button>
 
                     </form>
                 </div>
@@ -177,11 +178,34 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <ul class="list-group" id="ajax" >
+                    <ul class="list-group" id="ajax_giacenza">
 
                     </ul>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal" id="modal_giacenza" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><?php echo $articolo->Cd_AR ?> - <?php echo $articolo->Descrizione ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group" id="ajax">
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <a onclick="visualizza_giacenza_lotto()">Mostra Giacenza per Lotto</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
                 </div>
             </div>
@@ -213,10 +237,35 @@
 
         }).done(function(result) {
             $('#modal_lotti').modal('show');
+            $('#ajax_giacenza').html(result);
+        });
+
+    }
+    function visualizza_giacenza1(){
+
+        articolo = '<?php echo $articolo->Cd_AR?>';
+        $.ajax({
+            url: "<?php echo URL::asset('ajax/visualizza_giacenza')?>/"+articolo,
+
+        }).done(function(result) {
+            $('#modal_giacenza').modal('show');
             $('#ajax').html(result);
         });
 
     }
+    function visualizza_giacenza_lotto(){
+
+        articolo = '<?php echo $articolo->Cd_AR?>';
+        $.ajax({
+            url: "<?php echo URL::asset('ajax/visualizza_giacenza_lotto')?>/"+articolo,
+
+        }).done(function(result) {
+            $('#modal_giacenza').modal('show');
+            $('#ajax').html(result);
+        });
+
+    }
+
     function storialotto(articolo,lotto){
 
         $.ajax({

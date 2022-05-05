@@ -280,7 +280,7 @@
         </form>
         <header class="row m-0 fixed-header">
             <div class="left">
-                <a style="padding-left:20px;" href="/magazzino" ><i class="material-icons">arrow_back_ios</i></a>
+                <a style="padding-left:20px;" href="/" ><i class="material-icons">arrow_back_ios</i></a>
             </div>
             <div class="col center">
                 <a href="#" class="logo"><figure><img src="/img/logo_arca.png" alt=""></figure>Rettifica Quantit&agrave;</a>
@@ -328,8 +328,8 @@
 
                     <label>Tipo Ricerca</label>
                     <select class="form-control" type="text" id="tipo_articolo">
-                        <option value="GS1">GS1</option>
                         <option value="EAN">Codice Articolo o Barcode</option>
+                        <option value="GS1">GS1</option>
                     </select>
 
                 </div>

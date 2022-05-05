@@ -34,7 +34,7 @@ Route::any('magazzino/altri', 'HomeController@altri');
 
 Route::any('magazzino/produzione2/{cd_do}', 'HomeController@produzione2');
 Route::any('magazzino/produzione2_tot/{cd_do}', 'HomeController@produzione2_tot');
-Route::any('magazzino/produzione3/{id_dotes}/{id_fornitore}', 'HomeController@produzione3');
+Route::any('magazzino/produzione3', 'HomeController@produzione3');
 
 
 
@@ -60,7 +60,7 @@ Route::any('magazzino/trasporto3/{cd_ar}/{cd_do}/{cd_cf}/{cd_mg}/{cd_mgubicazion
 Route::any('magazzino/trasporto3_tot/{cd_ar}/{cd_do}/{cd_cf}/{cd_mg}/{cd_mgubicazione}/{lotto}/{Id_DoTes}', 'HomeController@trasporto_magazzino3_tot');
 Route::any('magazzino/trasporto4/{cd_ar}/{cd_do}/{cd_cf}/{cd_mg}/{cd_mgubicazione_P}/{cd_mg_A}/{cd_mgubicazione_A}/{lotto}/{Id_DoTes}', 'HomeController@trasporto_magazzino4');
 
-*/
+
 Route::any('magazzino/scarico', 'HomeController@scarico_magazzino');
 Route::any('magazzino/scarico2/{cd_do}', 'HomeController@scarico_magazzino2');
 Route::any('magazzino/scarico3/{id_fornitore}/{cd_do}', 'HomeController@scarico_magazzino3');
@@ -71,7 +71,7 @@ Route::any('magazzino/scarico02/{cd_do}', 'HomeController@scarico_magazzino02');
 Route::any('magazzino/scarico03/{id_fornitore}/{cd_do}', 'HomeController@scarico_magazzino03');
 Route::any('magazzino/scarico03_tot/{id_fornitore}/{cd_do}', 'HomeController@scarico_magazzino03_tot');
 Route::any('magazzino/scarico04/{id_fornitore}/{id_dotes}', 'HomeController@scarico_magazzino04');
-
+*/
 Route::any('magazzino/inventario', 'HomeController@inventario_magazzino');
 Route::any('calcola_totali_ordine', 'HomeController@calcola_totali_ordine');
 
@@ -93,9 +93,12 @@ Route::any('ajax/cerca_articolo_smart_inventario/{q}/{tipo}', 'AjaxController@ce
 
 Route::any('ajax/inserisci_lotto/{lotto}/{cd_ar}/{fornitore}/{descrizione}/{fornitore_pallet}/{pallet}', 'AjaxController@inserisci_lotto');
 Route::any('ajax/visualizza_lotti/{cd_ar}', 'AjaxController@visualizza_lotti');
+Route::any('ajax/visualizza_giacenza/{cd_ar}', 'AjaxController@visualizza_giacenza');
+Route::any('ajax/visualizza_giacenza_lotto/{cd_ar}', 'AjaxController@visualizza_giacenza_lotto');
 Route::any('ajax/storialotto/{cd_ar}/{lotto}', 'AjaxController@storialotto');
 Route::any('ajax/segnalazione/{dotes}/{dorig}/{testo}', 'AjaxController@segnalazione');
-Route::any('ajax/cambia_collo/{dorig}/{colli}', 'AjaxController@cambia_collo');
+Route::any('ajax/cambia_qta/{dorig}/{qta}', 'AjaxController@cambia_qta');
+Route::any('ajax/cambia_lotto/{dorig}/{lotto}', 'AjaxController@cambia_lotto');
 Route::any('ajax/segnalazione_salva/{dotes}/{dorig}/{testo}', 'AjaxController@segnalazione_salva');
 Route::any('ajax/cerca_articolo_barcode/{cd_cf}/{barcode}', 'AjaxController@cerca_articolo_barcode');
 Route::any('ajax/evadi_documento/{dotes}/{cd_do}/{magazzino_A}', 'AjaxController@evadi_documento');

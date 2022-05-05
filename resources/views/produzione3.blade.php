@@ -160,6 +160,67 @@
         display: inline-block;
         text-align: right;
     }
+
+    .form__group {
+        position: relative;
+        padding: 15px 0 0;
+        margin-top: 10px;
+        width: 50%;
+    }
+
+    .form__field {
+        font-family: inherit;
+        width: 100%;
+        border: 0;
+        border-bottom: 2px solid #9b9b9b;
+        outline: 0;
+        font-size: 1.3rem;
+        color: black;
+        padding: 7px 0;
+        background: transparent;
+        transition: border-color 0.2s;
+
+    ::placeholder {
+         color: transparent;
+     }
+
+    :placeholder-shown ~ .form__label {
+         font-size: 1.3rem;
+         cursor: text;
+         top: 20px;
+     }
+    }
+
+    .form__label {
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 1rem;
+        color: #9b9b9b;
+    }
+
+    .form__field:focus {
+    ~ .form__label {
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 1rem;
+        color: #11998e;
+        font-weight:700;
+    }
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #11998e,#38ef7d;);
+    border-image-slice: 1;
+    }
+    /* reset input */
+    .form__field{
+    :required,:invalid { box-shadow:none; }
+    }
+    /* demo */
     /* line 37, ../sass/_viewport.scss */
     .controls:after {
         content: '';
@@ -298,12 +359,11 @@
         </form>
         <header class="row m-0 fixed-header">
             <div class="left">
-                <a style="padding-left:20px;" href="/magazzino/produzione2/<?php echo $documento->Cd_Do?>" ><i class="material-icons">arrow_back_ios</i></a>
+                <a style="padding-left:20px;" href="/" ><i class="material-icons">arrow_back_ios</i></a>
             </div>
             <div class="col center">
                 <a href="#" class="logo"><figure><img src="/img/logo_arca.png" alt=""></figure><small><?php echo $documento->Cd_Do ?> N.<?php echo $documento->NumeroDoc ?> del </small><?php echo date('d/m/Y',strtotime($documento->DataDoc)) ?></a>
             </div>
-            <input type="text" id="cerca_articolo1" onchange="scarica_articolo1();" autofocus autocomplete="off" style="border:none;color:#f4465e;height: 0px!important;width: 0px!important;background-color: #f4465e">
             <div class="right">
                 <a style="padding-left:20px;" href="/" ><i class="material-icons">home</i></a>
             </div>
@@ -316,7 +376,7 @@
                 <div class="w-100">
                     <h1 class="text-center text-white title-background" style="margin-top:-0.5rem;"><?php echo $fornitore->Descrizione ?><br><small><?php echo $documento->Cd_Do ?> N.<?php echo $documento->NumeroDoc ?> del </small><?php echo date('d/m/Y',strtotime($documento->DataDoc)) ?></h1>
                 </div>
- */?>
+
             <?php $capannone1_max = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'1\'')[0]->Qta_Max;?>
             <?php $capannone3_max = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'3\'')[0]->Qta_Max;?>
             <?php $capannone4_max = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'4\'')[0]->Qta_Max;?>
@@ -326,7 +386,7 @@
                 $capannoneA_max = '1';?>
             <?php $capannoneB_max = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'B\'')[0]->Qta_Max;?>
             <?php $capannone6_max = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'6\'')[0]->Qta_Max;?>
-
+ */?>
             <!--
                 <fieldset class="reader-config-group" style="margin-top:50px;">
                     <label>
@@ -341,30 +401,38 @@
 
 
                 <div style="padding-right:30px;padding-left: 30px">
-                    <button style="width:50%;display:block;height: 30px;float: left;alignment: left" class="btn btn-primary" onclick="$('#modal_cerca_articolo').modal('show');"><h6 style="color: white">Aggiungi Prodotto</h6></button>
+                    <button style="width:50%;display:block;height: 30px;float: left;alignment: left" class="btn btn-primary" onclick="<?php //$('#modal_cerca_articolo').modal('show');?>aggiungi()"><h6 style="color: white">Aggiungi Prodotto</h6></button>
                     <button type="button" style="width:50%;display:block;background-color:red;border-color:red;height: 30px;float: right;alignment: right"   name="esplodi_riga" value="<?php echo $documento->Id_DoTes;?>" class="btn btn-primary" onclick="$('#modal_esplodi').modal('show')"><h6 style="color: white">Conferma Documento</h6></button>
                 </div>
-                <?php if(sizeof($documento->righe) > 0){ ?>
+<?php //                <input type="text" id="cerca_articolo1" onchange="scarica_articolo1();" autofocus autocomplete="off" style="border:none;">?>
+                <br>
+                <div class="form__group field" style="width: 100%;">
+                    <div class="row" style="text-align:center">
+                        <div class="col-sm-12">
+                          <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Articolo" name="cerca_articolo1" id='cerca_articolo1' required />
+                          <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Quantita" name="cerca_quantita1" id='cerca_quantita1' required />
+                          <input type="input" class="col-xs-3 col-sm-3 col-md-3 form__field" placeholder="Lotto" name="cerca_lotto1" id='cerca_lotto1' required />
+                        </div>
+                    </div>
+                </div>
+                <br>
+            <?php if(sizeof($documento->righe) > 0){ ?>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table>
+                        <table style="width: 100%">
                             <thead>
                             <tr>
 
-                                <th class="col-xs-3 col-sm-3 col-md-3" style="text-align: center">
+                                <th class="col-xs-5 col-sm-5 col-md-5" style="text-align: center">
                                     <label style="color:black;">Articolo</label>
                                 </th>
 
                                 <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                    <label style="color:black;">Colli</label>
+                                    <label style="color:black;">Quantita'</label>
                                 </th>
 
                                 <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
                                     <label style="color:black;">Lotto</label>
-                                </th>
-
-                                <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                    <label style="color:black;">Ordinati</label>
                                 </th>
 
                                 <th class="col-xs-2 col-sm-2 col-md-2" style="text-align: center">
@@ -377,40 +445,49 @@
 
                             <tbody>
                             <?php foreach($documento->righe as $r){ $totale = 0; ?>
-                            <?php if($r->TipoPC != 'P'){?>
+                            <?php if($r->TipoPC != ''){?>
                             <tr style="border:1px solid black;border-collapse: collapse;border-radius: 10px;">
                                 <div class="row">
-
-                                    <td class="col-xs-3 col-sm-3 col-md-3" style="text-align: left;">
-                                        <label style="color:black;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
-                                    </td>
-
                                     <?php if($r->TipoPC == 'P'){?>
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center;background-color: #B2FF66">
-                                        <input type="text" id="modifica_collo<?php echo $r->Id_DORig?>"  style="text-align:center;border:none;background-color: #B2FF66;font-weight: bold;margin-bottom: -0.5rem;" value="<?php echo floatval($r->xcolli)?>" readonly >
-                                    </td>
+                                        <td class="col-xs-5 col-sm-5 col-md-5" style="height: 35px;text-align: left;padding-left: -5px;">
+                                            <label style="color:black;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
+                                        </td>
                                     <?php }else{?>
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center;background-color: #B2FF66">
-                                        <input type="text" id="modifica_collo<?php echo $r->Id_DORig?>"  style="text-align:center;border:none;background-color: #B2FF66;font-weight: bold;margin-bottom: -0.5rem;" value="<?php echo floatval($r->xcolli)?>" onblur="cambiacollo(<?php echo $r->Id_DORig?>)">
-                                    </td>
-                                    <?php }?>
+                                        <td class="col-xs-5 col-sm-5 col-md-5" style="height: 35px;text-align: left;padding-left:50px;">
+                                            <label style="color:blue;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
+                                        </td>
+                                    <?php } ?>
+                                    <?php if($r->TipoPC == 'P'){?>
 
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
+                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: right">
+                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo number_format($r->Qta, 3, '.', '');?></label>
+                                    </td>
+
+                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: center">
                                         <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo $r->Cd_ARLotto?></label>
                                     </td>
-                                    <?php foreach ($r->ordini as $d){?>
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo $d->Colli_Ordinati ?></label>
+
+                                    <?php }else{ ?>
+
+                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: right">
+                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: right" id="qta_<?php echo $r->Id_DORig ?>" onblur="cambiaqta(<?php echo $r->Id_DORig?>)" value="<?php echo number_format($r->Qta, 3, '.', '');?>">
                                     </td>
+
+                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: right">
+                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: center" id="lotto_<?php echo $r->Id_DORig?>" onblur="cambialotto(<?php echo $r->Id_DORig?>)" value="<?php echo $r->Cd_ARLotto?>">
+                                    </td>
+
                                     <?php } ?>
 
-                                    <td class="col-xs-2 col-sm-2 col-md-2" style="text-align: center;margin-bottom: -0.5rem;">
+                                    <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: center;margin-bottom: -0.5rem;">
                                         <form  method="post" onsubmit="return confirm('Vuoi Eliminare Questa Riga ?')">
                                             <?php if($r->TipoPC != 'P'){?>
                                             <input type="hidden" id="codice" value="<?php echo $r->Cd_AR ?>">
-                                            <button style="width: 44px;background-color: #17A2B8;border: #17A2B8;height: 26px;" type="button" name="modifica_riga" value="<?php echo $r->Cd_AR;?>" class="btn btn-danger btn-sm" onclick="$('#modal_modifica_<?php echo $r->Id_DORig ?>').modal('show');"><i class="bi bi-pencil"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 18" style="margin-bottom: 10px;margin-right:20px">
+                                            <!--
+                                                <button style="width: 44px;background-color: #17A2B8;border: #17A2B8;height: 26px;" type="button" name="modifica_riga" value="<?php echo $r->Cd_AR;?>" class="btn btn-danger btn-sm" onclick="$('#modal_modifica_<?php echo $r->Id_DORig ?>').modal('show');"><i class="bi bi-pencil"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 18" style="margin-bottom: 10px;margin-right:20px">
                                                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                     </svg></i></button>
+                                            -->
                                             <input type="hidden" name="Id_DORig" value="<?php echo $r->Id_DORig ?>">
                                             <button  style="width: 44px;height: 26px;" type="submit" name="elimina_riga" value="Elimina" class="btn btn-danger btn-sm" ><i class="bi bi-trash-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 18" style="margin-bottom: 10px;margin-right:20px">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
@@ -422,232 +499,15 @@
                             </tr>
                             <?php } ?>
                             <?php } ?>
-                            <?php if($documento->giornata!= null ){foreach($documento->giornata as $d){ $totale = 0; ?>
-
-                            <tr style="border:1px solid black;border-collapse: collapse;border-radius: 10px;">
-                                <div class="media-body">
-                                    <div class="row">
-
-                                        <td class="col-xs-3 col-sm-3 col-md-3" style="text-align: left;">
-                                            <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo substr($d[0]->Articolo,'0','52')?></label>
-                                        </td>
-                                        <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                            <input type="text"  id="modifica_collo" style="text-align:center;border:none;font-weight: bold;margin-bottom: -0.5rem;" value="" onfocus="cerca_articolo1.focus()" readonly >
-<?php //                                            <input type="text"  style="text-align:center;border:none;font-weight: bold;margin-bottom: -0.5rem;" value="<?php echo $d[0]->Colli_Prodotti;?><?php //" onfocus="cerca_articolo1.focus()" readonly > ?>
-                                        </td>
-                                        <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                            <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"></label>
-                                        </td>
-                                        <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                            <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo $d[0]->Colli_Ordinati?></label>
-                                        </td>
-                                        <td class="col-xs-2 col-sm-2 col-md-2" style="text-align: center;margin-bottom: -0.5rem;">
-
-                                        </td>
-                                        <?php /*
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center;<?php /*background-color: #B2FF66 *//*?>">
-                                        <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo floatval(floatval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))?></label>
-                                    </td>
-
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center;background-color: #E4F551<?php if(floatval(floatval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))-(floatval($d[0]->Colli_Ordinati))<0)echo ';background-color: #ff6969 !important;'?>">
-                                        <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php if(floatval(floatval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))-(floatval($d[0]->Colli_Ordinati))<0)echo intval(intval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))-(floatval($d[0]->Colli_Ordinati)); else echo '0'; ?> </label>
-                                    </td>
-
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                        <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo floatval($d[0]->Colli_Prodotti) ?></label>
-                                    </td>
-*/?>
-                                    </div>
-                                </div>
-                            </tr>
-
-                            <?php } } ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <?php } ?>
-                <?php /*
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <?php if($documento->giornata != null){ ?>
-
-                            <table <?php /*style="margin-right: 10px;margin-left:10px"*//*?>>
-                                <tbody>
-                                <?php foreach($documento->giornata as $d){ $totale = 0; ?>
-
-                                <tr style="border:1px solid black;border-collapse: collapse;border-radius: 10px;">
-                                    <div class="media-body">
-                                        <div class="row">
-
-                                            <td class="col-xs-3 col-sm-3 col-md-3" style="text-align: left;">
-                                                <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo /*substr($d[0]->Articolo,'0','21')*/ /*$d[0]->Articolo?></label>
-                                            </td>
-                                            <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                                <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"></label>
-                                            </td>
-                                            <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                                <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold"></label>
-                                            </td>
-                                            <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                                <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo $d[0]->Colli_Ordinati?></label>
-                                            </td>
-                                            <td class="col-xs-2 col-sm-2 col-md-2" style="text-align: center;margin-bottom: -0.5rem;">
-
-                                            </td>
-
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center;<?php /*background-color: #B2FF66 *//*?>">
-                                        <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo floatval(floatval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))?></label>
-                                    </td>
-
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center;background-color: #E4F551<?php if(floatval(floatval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))-(floatval($d[0]->Colli_Ordinati))<0)echo ';background-color: #ff6969 !important;'?>">
-                                        <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php if(floatval(floatval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))-(floatval($d[0]->Colli_Ordinati))<0)echo intval(intval($d[0]->Colli_Magazzino)/floatval($d[0]->QtaConfezione))-(floatval($d[0]->Colli_Ordinati)); else echo '0'; ?> </label>
-                                    </td>
-
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
-                                        <label style="font-size:14px;margin-bottom:-0.5rem;font-weight: bold"><?php echo floatval($d[0]->Colli_Prodotti) ?></label>
-                                    </td>
-
-                                        </div>
-                                    </div>
-                                </tr>
-
-                                <?php } ?>
-                                </tbody>
-                            </table>
-                            <?php } ?>
-                        </div>
-                    </div>
-
-                    <button type="button" style="margin-top:10px !important;margin-bottom:15px !important;width:80%;margin:0 auto;display:block;background-color:red;border-color:red;height: 35px"   name="esplodi_riga" value="<?php echo $documento->Id_DoTes;?>" class="btn btn-primary" onclick="$('#modal_esplodi').modal('show')"><h6 style="color: white">Conferma Documento</h6></button>
-
-                  <div style="margin-top:15px !important;">  */?>
-                <div>
-                    <div class="progress-bar-wrapper" style="width: 33%;padding-left: 50px;padding-right: 50px;float: left; alignment: left;">
-                        <h6 style="text-align: center;">IERI</h6>
-                        <div class="progress-bar-label" <?php if($capannone1_I < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone1_I < '0')echo 'style="color: red"'?>>Capannone 1 : Disponibile <?php echo $capannone1_I?>  su <?php echo $capannone1_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone1_I)/floatval($capannone1_max))*100?>%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone3_I < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone3_I < '0')echo 'style="color: red"'?>>Capannone 3 : Disponibile <?php echo $capannone3_I?>  su <?php echo $capannone3_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone3_I)/floatval($capannone3_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax=""></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone4_I < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone4_I < '0')echo 'style="color: red"'?>>Capannone 4 : Disponibile <?php echo $capannone4_I?>  su <?php echo $capannone4_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone4_I)/floatval($capannone4_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone5_I < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone5_I < '0')echo 'style="color: red"'?>>Capannone 5 : Disponibile <?php echo $capannone5_I?>  su <?php echo $capannone5_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone5_I)/floatval($capannone5_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone6_I < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone6_I < '0')echo 'style="color: red"'?>>Capannone 6 : Disponibile <?php echo $capannone6_I?>  su <?php echo $capannone6_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone6_I)/floatval($capannone6_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannoneA_I < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannoneA_I < '0')echo 'style="color: red"'?>>Capannone A : Disponibile <?php echo $capannoneA_I?>  su <?php if($capannoneA_max != '1') echo $capannoneA_max ; else echo '0';?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannoneA_I)/floatval($capannoneA_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannoneB_I < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannoneB_I < '0')echo 'style="color: red"'?>>Capannone B : Disponibile <?php echo $capannoneB_I?>  su <?php echo $capannoneB_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannoneB_I)/floatval($capannoneB_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                    </div>
-                    <div class="progress-bar-wrapper" style="width: 33%;padding-left: 50px;padding-right: 50px;float: left; alignment: left;">
-                        <h6 style="text-align: center">OGGI </h6>
-
-                        <div class="progress-bar-label" <?php if($capannone1 < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone1 < '0')echo 'style="color: red"'?>>Capannone 1 : Disponibile <?php echo $capannone1?>  su <?php echo $capannone1_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone1)/floatval($capannone1_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone3 < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone3 < '0')echo 'style="color: red"'?>>Capannone 3 : Disponibile <?php echo $capannone3?>  su <?php echo $capannone3_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone3)/floatval($capannone3_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax=""></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone4 < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone4 < '0')echo 'style="color: red"'?>>Capannone 4 : Disponibile <?php echo $capannone4?>  su <?php echo $capannone4_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone4)/floatval($capannone4_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone5 < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone5 < '0')echo 'style="color: red"'?>>Capannone 5 : Disponibile <?php echo $capannone5?>  su <?php echo $capannone5_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone5)/floatval($capannone5_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone6 < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone6 < '0')echo 'style="color: red"'?>>Capannone 6 : Disponibile <?php echo $capannone6?>  su <?php echo $capannone6_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone6)/floatval($capannone6_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannoneA < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannoneA < '0')echo 'style="color: red"'?>>Capannone A : Disponibile <?php echo $capannoneA?>  su <?php if($capannoneA_max != '1') echo $capannoneA_max ; else echo '0';?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannoneA)/floatval($capannoneA_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannoneB < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannoneB < '0')echo 'style="color: red"'?>>Capannone B : Disponibile <?php echo $capannoneB?>  su <?php echo $capannoneB_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannoneB)/floatval($capannoneB_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                    </div>
-                    <div class="progress-bar-wrapper" style="width: 33%;padding-left: 50px;padding-right: 50px;float: left; alignment: left;">
-                        <h6 style="text-align: center">DOMANI</h6>
-
-                        <div class="progress-bar-label" <?php if($capannone1_D < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone1_D < '0')echo 'style="color: red"'?>>Capannone 1 : Disponibile <?php echo $capannone1_D?>  su <?php echo $capannone1_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone1_D)/floatval($capannone1_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone3_D < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone3_D < '0')echo 'style="color: red"'?>>Capannone 3 : Disponibile <?php echo $capannone3_D?>  su <?php echo $capannone3_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone3_D)/floatval($capannone3_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax=""></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone4_D < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone4_D < '0')echo 'style="color: red"'?>>Capannone 4 : Disponibile <?php echo $capannone4_D?>  su <?php echo $capannone4_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone4_D)/floatval($capannone4_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone5_D < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone5_D < '0')echo 'style="color: red"'?>>Capannone 5 : Disponibile <?php echo $capannone5_D?>  su <?php echo $capannone5_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone5_D)/floatval($capannone5_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannone6_D < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannone6_D < '0')echo 'style="color: red"'?>>Capannone 6 : Disponibile <?php echo $capannone6_D?>  su <?php echo $capannone6_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannone6_D)/floatval($capannone6_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannoneA_D < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannoneA_D < '0')echo 'style="color: red"'?>>Capannone A : Disponibile <?php echo $capannoneA_D?>  su <?php if($capannoneA_max != '1') echo $capannoneA_max ; else echo '0';?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannoneA_D)/floatval($capannoneA_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="progress-bar-label" <?php if($capannoneB_D < '0')echo 'style="color: red"'?>><label style="font-weight: bold "<?php if($capannoneB_D < '0')echo 'style="color: red"'?>>Capannone B : Disponibile <?php echo $capannoneB_D?>  su <?php echo $capannoneB_max?></label></div>
-                        <div class="progress" style="height: 7px">
-                            <div class="progress-bar" role="progressbar" style="width: <?php echo (floatval($capannoneB_D)/floatval($capannoneB_max))*100?>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-
-                    </div>
-                </div>
+<!-- page main ends -->
             </div>
         </div>
     </div>
-</div>
-
-<!-- page main ends -->
-
-
 <div class="modal" id="modal_cerca_articolo" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form method="post">
@@ -773,7 +633,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="ajax_modal_modifica"></div>
-
+<?php /*
                     <label>Colli</label>
                     <input class="form-control" type="number" name="Qta" value="<?php echo floatval($r->xcolli) ?>" required placeholder="Inserisci una Quantità" autocomplete="off">
 
@@ -781,7 +641,7 @@
 
 
                     <input class="form-control" type="hidden" name="PrezzoUnitarioV" value="<?php echo intval($r->PrezzoUnitarioV) ?>" required placeholder="Inserisci un Prezzo" autocomplete="off">
-
+*/?>
                     <label>Magazzino</label>
                     <select class="form-control" type="number" name="magazzino"  required  autocomplete="off">
                         <?php  foreach($magazzino_prova as $mp){?>
@@ -817,22 +677,20 @@
         <form method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Esplodi Documento</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Salva Documento</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
 
                 <div class="modal-body">
-                    <label>Sei sicuro di voler far esplodere tutti gli articoli</label>
+                    <label>Sei sicuro di voler salvare il Documento?</label>
                 </div>
 
                 <div class="modal-footer">
                     <input type="hidden" name="Id_DoTes" value="<?php echo $documento->Id_DoTes;?>">
-                    <input type="hidden" name="Id_DoTes_I" value="<?php echo $Id_DoTes_I;?>">
-                    <input type="hidden" name="Id_DoTes_D" value="<?php echo $Id_DoTes_D;?>">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">No</button>
-                    <button type="submit"  name="esplodi_riga" value="Esplodi" class="btn btn-primary">Si</button>
+                    <button type="button"  onclick="top.location.href = '/'" class="btn btn-primary">Si</button>
                 </div>
             </div>
         </form>
@@ -858,6 +716,13 @@
 </html>
 
 <script type="text/javascript">
+
+    function aggiungi(){
+        codice = document.getElementById('cerca_articolo1').value;
+        lotto  = document.getElementById('cerca_lotto1').value;
+        quantita = document.getElementById('cerca_quantita1').value;
+        scarica_articolo();
+    }
 
     cd_cf =  '<?php echo $fornitore->Cd_CF ?>';
 
@@ -889,10 +754,10 @@
 
     function scarica_articolo(){
 
-        codice    =      $('#modal_Cd_AR').val();
-        quantita  =      $('#modal_colli').val();
-        magazzino =      $('#modal_magazzino').val();
-        lotto     =      $('#modal_lotto').val();
+        codice    =      $('#cerca_articolo1').val();
+        quantita  =      $('#cerca_quantita1').val();
+        magazzino =     '00001';
+        lotto     =      $('#cerca_lotto1').val();
 
 
 
@@ -930,12 +795,26 @@
             document.getElementById("cerca_articolo1").focus();
             focus continuo su cerca_articolo
         });*/
-    function cambiacollo(dorig){
+    function cambiaqta(dorig){
 
-        colli = document.getElementById('modifica_collo'+dorig).value;
-        if(colli != ''){
+        qta = document.getElementById('qta_'+dorig).value;
+        if(qta != ''){
             $.ajax({
-                url: "<?php echo URL::asset('ajax/cambia_collo') ?>/"+dorig+"/"+colli,
+                url: "<?php echo URL::asset('ajax/cambia_qta') ?>/"+dorig+"/"+qta,
+            }).done(function(result) {
+                location.reload();
+            });
+
+        }
+        location.reload();
+    }
+    function cambialotto(dorig){
+
+        lotto = document.getElementById('lotto_'+dorig).value;
+
+        if(lotto != ''){
+            $.ajax({
+                url: "<?php echo URL::asset('ajax/cambia_lotto') ?>/"+dorig+"/"+lotto,
             }).done(function(result) {
                 location.reload();
             });

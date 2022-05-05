@@ -296,127 +296,13 @@ class HomeController extends Controller{
         return View::make('produzione2_tot',compact('documenti', 'cd_do','numero_documento','cd_cf'));
     }
 
-    public function produzione3($id_dotes,$id_fornitore,Request $request){
+    public function produzione3(Request $request){
 
         $dati = $request->all();
-        if(isset($dati['elimina_riga'])){
-            DB::table('DoRig')->where('Id_DORig',$dati['Id_DORig'])->delete();
+        if(isset($dati['elimina_riga'])) {
+            DB::table('DoRig')->where('Id_DORig', $dati['Id_DORig'])->delete();
         }
 
-        if(isset($dati['esplodi_riga'])){
-            $Id_DoTes = $dati['Id_DoTes'];
-            $Id_DoTes_I = $dati['Id_DoTes_I'];
-            $Id_DoTes_D = $dati['Id_DoTes_D'];
-            /*
-            $Id_DoRig = $dati['Id_DORig'];
-            $Id_DoTes = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Id_DOTes;
-            $Cd_AR = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Cd_AR;
-            $Cd_ARLotto = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Cd_ARLotto;
-            $Cd_CF = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Cd_CF;
-            $quantita = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Qta;
-
-            $daat = DB::SELECT('SELECT * FROM DOTes WHERE Id_DOTes = \''.$Id_DoTes.'\'');
-            $Cd_MG_P = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Cd_MG_P;
-            $Cd_MGUbicazione_P = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Cd_MGUbicazione_P;
-            $Id_DB = DB::SELECT('SELECT * FROM DB WHERE Cd_AR = \''.$Cd_AR.'\' ')[0]->Id_DB;
-            $esploso = DB::SELECT('SELECT * FROM DBMateriale WHERE Id_DB = \''.$Id_DB.'\' ');
-            $Riga = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \''.$Id_DoRig.'\' ')[0]->Riga;
-            $date = date('Y-m-d', strtotime($daat[0]->DataDoc));
-
-            foreach($esploso as $e) {
-
-                $consumo = intval($e->Consumo) * $quantita;
-
-                while ($consumo != '0') {
-                    if(is_numeric($Cd_ARLotto)!='1') {
-
-
-                        $Cd_ARLotto = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_ARLotto from MGMov where Cd_AR= \'' . $e->Cd_AR . '\' and Cd_ARLotto is not null AND DataScadenza >\'' . $date . '\' group by Cd_ARLotto order by DataScadenza asc');
-
-                        if ($Cd_ARLotto != null)
-                            $Cd_ARLotto = $Cd_ARLotto[0]->Cd_ARLotto;
-                    }
-                    else
-                    {
-                        $controllo  = DB::SELECT('SELECT * FROM AR WHERE Cd_AR = \''.$e->Cd_AR.'\'');
-                        $attributi  = '<rows>
-                                          <row attributo="2" />
-                                          <row attributo="3" />
-                                        </rows>';
-                        if($controllo[0]->Attributi == $attributi)
-                        $Cd_ARLotto = $Cd_ARLotto[0]->Cd_ARLotto;
-                    }
-                    $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_ARLotto from MGMov where Cd_AR= \'' . $e->Cd_AR . '\' and Cd_ARLotto is not null  group by Cd_ARLotto ');
-
-                    if($giacenza != null)
-                        $giacenza = $giacenza[0]->Giacenza;
-
-                    if($giacenza == null)
-                        $giacenza='0';
-
-                    if($giacenza != '0'){
-                        if($Cd_ARLotto != null){
-
-                        if(intval($consumo)>(intval($giacenza))) {
-                            $insertEsplosione['Qta'] = intval($giacenza);
-                            $insertEsplosione['QtaEvadibile'] = intval($giacenza);
-                            $consumo = intval($consumo)-intval($giacenza);
-                        }else{
-                            $insertEsplosione['Qta'] = intval($consumo);
-                            $insertEsplosione['QtaEvadibile'] = intval($consumo);
-                            $consumo = '0';
-
-                        }
-                        $insertEsplosione['Cd_AR'] = $e->Cd_AR;
-                        $insertEsplosione['Cd_MG_P'] = $Cd_MG_P;
-                        $insertEsplosione['Id_DoTes'] = $Id_DoTes;
-                        if ($Cd_MGUbicazione_P != null) {
-                            $insertEsplosione['Cd_MGUbicazione_P'] = $Cd_MGUbicazione_P;
-                        }
-                        if($Cd_ARLotto != null) {
-                            $insertEsplosione['Cd_ARLotto'] = $Cd_ARLotto;
-                        }
-                        $insertEsplosione['TipoPC'] = 'C';
-                        $insertEsplosione['Cd_CF'] = $Cd_CF;
-                        $insertEsplosione['Riga'] = $Riga;
-                        $Id_MgMov = DB::table('DORig')->insertGetId($insertEsplosione);
-                        $Id_DoRig1 = DB::SELECT('SELECT * FROM MGMov WHERE Id_MgMov = \''.$Id_MgMov.'\' ')[0]->Id_DoRig;
-                        DB::update("Update dorig set dorig.reserved_1= 'RRRRRRRRRR' where dorig.id_dorig = $Id_DoRig1");
-
-                            } $giacenza = '0';
-                        }
-                        else{
-                        $insertEsplosione['Cd_AR'] = $e->Cd_AR;
-                        $insertEsplosione['Qta'] = intval($consumo);
-                        $insertEsplosione['QtaEvadibile'] = intval($consumo);
-                        $insertEsplosione['Cd_MG_P'] = $Cd_MG_P;
-                        $insertEsplosione['Id_DoTes'] = $Id_DoTes;
-                        if ($Cd_MGUbicazione_P != null)
-                            $insertEsplosione['Cd_MGUbicazione_P'] = $Cd_MGUbicazione_P;
-                        $insertEsplosione['TipoPC'] = 'C';
-                        $insertEsplosione['Cd_CF'] = $Cd_CF;
-                        $insertEsplosione['Riga'] = $Riga;
-                        unset($insertEsplosione['Cd_ARLotto']);
-                        $Id_MgMov = DB::table('DORig')->insertGetId($insertEsplosione);
-                        $consumo = '0';
-
-                            $Id_DoRig1 = DB::SELECT('SELECT * FROM MGMov WHERE Id_MgMov = \''.$Id_MgMov.'\' ')[0]->Id_DoRig;
-                            DB::update("Update dorig set dorig.reserved_1= 'RRRRRRRRRR' where dorig.id_dorig = $Id_DoRig1");
-
-
-                    }
-                }
-            }
-            DB::update("Update DORig set TipoPC = 'P' where Id_DORig = '$Id_DoRig'");
-            DB::update("Update dotes set dotes.reserved_1= 'RRRRRRRRRR' where dotes.id_dotes = $Id_DoTes exec asp_DO_End $Id_DoTes");
-            DB::statement("exec asp_DO_End $Id_DoTes");
-
-        */
-            ArcaUtilsController::calcola_totale_ordine($Id_DoTes);
-            ArcaUtilsController::calcola_totale_ordine($Id_DoTes_I);
-            ArcaUtilsController::calcola_totale_ordine($Id_DoTes_D);
-            return Redirect::to('/');
-        }
         if(isset($dati['modifica_riga'])){
 
             unset($dati['modifica_riga']);
@@ -452,166 +338,126 @@ class HomeController extends Controller{
 
         }
         $date = date('Y-m-d',strtotime('today')) ;
-        $fornitori = DB::select('SELECT * from CF where Fornitore = 1 and Cd_CF = \''.$id_fornitore.'\'');
-        $documenti = DB::select('SELECT * from DOTes where Id_DoTes = \''.$id_dotes.'\'');
+        $fornitori = DB::select('SELECT * from CF where Fornitore = 1 and Cd_CF = \'FPROD\'');
+        $documenti = DB::select('SELECT * from DOTes where Cd_DO = \'CP\' and DataDoc = \''.$date.'\'');
+        if(sizeof($documenti)<= 0 ){
+            $insert_testata_ordine['Cd_CF'] = 'FPROD';
+            $insert_testata_ordine['Cd_Do'] = 'CP';
+            $insert_testata_ordine['DataDoc'] = $date;
+            $Id_DOTes  = DB::table('DOTes')->insertGetId($insert_testata_ordine);
+            $documenti =  DB::select('SELECT * from DOTes where Id_DOTes = \''.$Id_DOTes.'\'');
+        }
+
+        $Id_DoTes = $documenti[0]->Id_DoTes;
+
+        $righe = DB::SELECT('SELECT * FROM DORig WHERE Id_DOTes = \''.$Id_DoTes.'\' and TipoPc =\'\'');
+        foreach($righe as $r) {
+            $Id_DoRig = $r->Id_DORig;
+            $Cd_AR = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Cd_AR;
+            $Cd_ARLotto = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Cd_ARLotto;
+            $Cd_CF = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Cd_CF;
+            $quantita = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Qta;
+            $daat = DB::SELECT('SELECT * FROM DOTes WHERE Id_DOTes = \'' . $Id_DoTes . '\'');
+            $Cd_MG_P = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Cd_MG_P;
+            $Cd_MGUbicazione_P = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Cd_MGUbicazione_P;
+            $Id_DB = DB::SELECT('SELECT * FROM DB WHERE Cd_AR = \'' . $Cd_AR . '\' ');
+            if(sizeof($Id_DB)!= 0){
+                $Id_DB = $Id_DB[0]->Id_DB;
+            }
+            else
+                exit();
+            $esploso = DB::SELECT('SELECT * FROM DBMateriale WHERE Id_DB = \'' . $Id_DB . '\' ');
+
+            $Riga = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Riga;
+            $date = date('Y-m-d', strtotime($daat[0]->DataDoc));
+
+            foreach ($esploso as $e) {
+
+                $consumo = floatval($e->ConsumoUM1) * $quantita;
+                while ($consumo != '0') {  /*
+                        $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_ARLotto from MGMov where Cd_AR= \'' . $e->Cd_AR . '\' and Cd_ARLotto is not null  group by Cd_ARLotto ');
+
+                        if (sizeof($giacenza) != 0)
+                            $giacenza = $giacenza[0]->Giacenza;
+
+                        if (sizeof($giacenza) == 0)
+                            $giacenza = '0';
+
+                        if ($giacenza != '0') {
+                            if ($Cd_ARLotto != null) {
+
+                                if (intval($consumo) > (intval($giacenza))) {
+                                    $insertEsplosione['Qta'] = intval($giacenza);
+                                    $insertEsplosione['QtaEvadibile'] = intval($giacenza);
+                                    $consumo = intval($consumo) - intval($giacenza);
+                                } else {
+                                    $insertEsplosione['Qta'] = intval($consumo);
+                                    $insertEsplosione['QtaEvadibile'] = intval($consumo);
+                                    $consumo = '0';
+
+                                }
+                                $insertEsplosione['Cd_AR'] = $e->Cd_AR;
+                                $insertEsplosione['Cd_MG_P'] = $Cd_MG_P;
+                                $insertEsplosione['Id_DoTes'] = $Id_DoTes;
+                                if ($Cd_MGUbicazione_P != null) {
+                                    $insertEsplosione['Cd_MGUbicazione_P'] = $Cd_MGUbicazione_P;
+                                }
+                                if ($Cd_ARLotto != null) {
+                                    $insertEsplosione['Cd_ARLotto'] = $Cd_ARLotto;
+                                }
+                                $insertEsplosione['TipoPC'] = 'C';
+                                $insertEsplosione['Cd_CF'] = $Cd_CF;
+                                $insertEsplosione['Riga'] = $Riga;
+                                unset($insertEsplosione['Cd_ARLotto']);
+                                $insertEsplosione['Mipaaf'] = '0';
+                                $Id_MgMov = DB::table('DORig')->insertGetId($insertEsplosione);
+                                $Id_DoRig1 = DB::SELECT('SELECT * FROM MGMov WHERE Id_MgMov = \'' . $Id_MgMov . '\' ')[0]->Id_DoRig;
+                                DB::update("Update dorig set dorig.reserved_1= 'RRRRRRRRRR' where dorig.id_dorig = $Id_DoRig1");
+
+                            }
+                            $giacenza = '0';
+                        } else {*/
+                    $insertEsplosione['Cd_AR'] = $e->Cd_AR;
+                    $insertEsplosione['Qta'] = floatval($consumo);
+                    $insertEsplosione['QtaEvadibile'] = floatval($consumo);
+                    $insertEsplosione['Cd_MG_P'] = $Cd_MG_P;
+                    $insertEsplosione['Id_DoTes'] = $Id_DoTes;
+                    if ($Cd_MGUbicazione_P != null)
+                        $insertEsplosione['Cd_MGUbicazione_P'] = $Cd_MGUbicazione_P;
+                    $insertEsplosione['TipoPC'] = 'C';
+                    $insertEsplosione['Cd_CF'] = $Cd_CF;
+                    $insertEsplosione['Riga'] = $Riga;
+                    $insertEsplosione['Mipaaf'] = '0';
+                    unset($insertEsplosione['Cd_ARLotto']);
+                    $Id_MgMov = DB::table('DORig')->insertGetId($insertEsplosione);
+                    $consumo = '0';
+
+                    $Id_DoRig1 = DB::SELECT('SELECT TOP 1 * FROM MGMov ORDER BY Id_DORig DESC ')[0]->Id_DoRig;
+                    DB::update("Update dorig set dorig.reserved_1= 'RRRRRRRRRR' where dorig.id_dorig = $Id_DoRig1");
+
+
+                    //}
+                }
+            }
+
+            DB::update("Update DORig set TipoPC = 'P' where Id_DORig = '$Id_DoRig'");
+        }
+
+        DB::update("Update dotes set dotes.reserved_1= 'RRRRRRRRRR' where dotes.id_dotes = $Id_DoTes exec asp_DO_End $Id_DoTes");
+        DB::statement("exec asp_DO_End $Id_DoTes");
+
+
         if(sizeof($fornitori) > 0){
             $fornitore = $fornitori[0];
             $documento = $documenti[0];
+            $id_dotes = $documento->Id_DoTes;
             $data = date('Y-m-d',strtotime($documento->DataDoc)) ;
-            $data_I = date('Y-m-d',strtotime("-1 day".$documento->DataDoc)) ;
-            $Id_DoTes_I = DB::SELECT('SELECT * FROM DOTES WHERE DataDoc = \''.$data_I.'\' and Cd_DO = \'CPI\' ');
-            if(sizeof($Id_DoTes_I)!='0')
-                $Id_DoTes_I = $Id_DoTes_I[0]->Id_DoTes;
-            else
-                $Id_DoTes_I = '0';
-            $data_D = date('Y-m-d',strtotime("+1 day".$documento->DataDoc)) ;
-            $Id_DoTes_D = DB::SELECT('SELECT * FROM DOTES WHERE DataDoc = \''.$data_D.'\' and Cd_DO = \'CPI\' ');
-            if(sizeof($Id_DoTes_D)!='0')
-                $Id_DoTes_D = $Id_DoTes_D[0]->Id_DoTes;
-            else
-                $Id_DoTes_D = '0';
-            $documento->righe = DB::select('SELECT * from DORig where Id_DoTes in (\''.$id_dotes.'\',\''.$Id_DoTes_I.'\',\''.$Id_DoTes_D.'\') and TipoPC !=\'C\' and xcolli is not null and xqtaconf is not null order by Riga,Id_DoRig asc');
-            $documento->righe2 = DB::select('SELECT * from DORig where Id_DoTes in (\''.$id_dotes.'\',\''.$Id_DoTes_I.'\',\''.$Id_DoTes_D.'\') and TipoPC !=\'C\' and TipoPC !=\'P\' and xcolli is not null and xqtaconf is not null order by Riga,Id_DoRig asc');
-            $documento->totale = 0;
+            $documento->righe = DB::select('SELECT * from DORig where Id_DoTes = \''.$id_dotes.'\' order by Riga,Id_DoRig asc');
             foreach ($documento->righe as $r)
             {
                 $r->lotti = DB::select('SELECT * FROM ARLotto WHERE Cd_AR = \''.$r->Cd_AR.'\' AND DataScadenza > \''.$date.'\' ORDER BY TimeIns DESC ');
-                $r->ordini = DB::select('SELECT Sum(xcolli) as Colli_Ordinati FROM DORig WHERE (Cd_DO Like \'%O%\' OR Cd_DO = \'O11\') and DataConsegna = \'' . $data . '\' and Cd_AR = \'' . $r->Cd_AR . '\' ');
             }
-
-            $condizione = ' WHERE 1=1 ';
-            foreach ($documento->righe2 as $r)
-            {
-                $condizione .=' and Cd_AR != \''.$r->Cd_AR.'\' ';
-            }
-
-            $codice_articoli = DB::SELECT('SELECT DISTINCT(Cd_AR) FROM DORig '.$condizione.' AND (Cd_DO Like \'%O%\' OR Cd_DO = \'O11\') and DataConsegna = \''.$data.'\' and Cd_AR is not null ');
-            $documento->giornata = null;
-            $i = 0;
-            $ese = $documento->Cd_MGEsercizio;
-            foreach ($codice_articoli as $codice_articolo) {
-                $documento->giornata[$i] = DB::SELECT('SELECT
-                (SELECT Sum(xcolli) as Colli_Prodotti FROM DORig WHERE Cd_DO  = \'CPI\' and DataDoc = \'' . $data . '\'   and Cd_AR = \'' . $codice_articolo->Cd_AR . '\') as Colli_Prodotti,
-                (SELECT /*CEILING(Sum(Qta/xqtaconf))*/ Sum(xcolli) as Colli_Ordinati FROM DORig WHERE (Cd_DO Like \'%O%\' OR Cd_DO = \'O11\') and DataConsegna = \'' . $data . '\' and Cd_AR = \'' . $codice_articolo->Cd_AR . '\') AS Colli_Ordinati ,
-                (SELECT SUM(QuantitaSign) FROM MGMov WHERE Cd_MG = \'00001\' and Cd_AR = \'' . $codice_articolo->Cd_AR . '\' and DataMov <= \'' . $data . '\' and Cd_MGEsercizio = \''.$ese.'\') as Colli_Magazzino,
-                (SELECT CONCAT(Cd_AR,\' - \',Descrizione) FROM AR Where Cd_AR = \'' . $codice_articolo->Cd_AR . '\') as Articolo,
-                (SELECT xqtaconf FROM AR Where Cd_AR = \'' . $codice_articolo->Cd_AR . '\') as QtaConfezione');
-                $i++;
-            }
-
-            $totali_documento = DB::select('SELECT * from DoTotali where Id_DoTes = \''.$id_dotes.'\'');
-            if(sizeof($totali_documento) > 0) {
-                $documento->imponibile = $totali_documento[0]->TotImponibileE;
-                $documento->imposta = $totali_documento[0]->TotImpostaE;
-                $documento->totale = $totali_documento[0]->TotaPagareE;
-            }
-            $articolo       = DB::select('SELECT Cd_AR from DORig where Id_DoTes = \''.$id_dotes.'\' group by Cd_AR');
-            $consumo        = DB::SELECT('SELECT * FROM DORig WHERE Cd_DO = \'CPI\' AND DataDoc =\''.$data.'\'  AND Cd_CF = \'F000123\'AND xcolli IS NOT NULL AND xqtaconf IS NOT NULL ORDER BY  Riga,Id_DoRig ASC');
-            $consumo_I      = DB::SELECT('SELECT * FROM DORig WHERE Cd_DO = \'CPI\' AND DataDoc =\''.$data_I.'\'  AND Cd_CF = \'F000123\'AND xcolli IS NOT NULL AND xqtaconf IS NOT NULL ORDER BY  Riga,Id_DoRig ASC');
-            $consumo_D      = DB::SELECT('SELECT * FROM DORig WHERE Cd_DO = \'CPI\' AND DataDoc =\''.$data_D.'\'  AND Cd_CF = \'F000123\'AND xcolli IS NOT NULL AND xqtaconf IS NOT NULL ORDER BY  Riga,Id_DoRig ASC');
-            $capannone1     = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'1\'')[0]->Qta_Max;
-            $capannone1_I   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'1\'')[0]->Qta_Max;
-            $capannone1_D   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'1\'')[0]->Qta_Max;
-            $capannone3     = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'3\'')[0]->Qta_Max;
-            $capannone3_I   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'3\'')[0]->Qta_Max;
-            $capannone3_D   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'3\'')[0]->Qta_Max;
-            $capannone4     = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'4\'')[0]->Qta_Max;
-            $capannone4_I   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'4\'')[0]->Qta_Max;
-            $capannone4_D   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'4\'')[0]->Qta_Max;
-            $capannone5     = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'5\'')[0]->Qta_Max;
-            $capannone5_I   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'5\'')[0]->Qta_Max;
-            $capannone5_D   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'5\'')[0]->Qta_Max;
-            $capannoneA     = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'A\'')[0]->Qta_Max;
-            $capannoneA_I   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'A\'')[0]->Qta_Max;
-            $capannoneA_D   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'A\'')[0]->Qta_Max;
-            $capannoneB     = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'B\'')[0]->Qta_Max;
-            $capannoneB_I   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'B\'')[0]->Qta_Max;
-            $capannoneB_D   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'B\'')[0]->Qta_Max;
-            $capannone6     = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'6\'')[0]->Qta_Max;
-            $capannone6_I   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'6\'')[0]->Qta_Max;
-            $capannone6_D   = DB::SELECT('SELECT * FROM xCapannoni WHERE Cd_xCapannoni = \'6\'')[0]->Qta_Max;
-            foreach ($consumo as $c) {
-                $lotto_minimo = DB::SELECT('SELECT LottoMinimo FROM AR WHERE Cd_AR = \''.$c->Cd_AR.'\'')[0]->LottoMinimo;
-                $finale = substr($c->Cd_ARLotto,'5');
-                switch($finale){
-                    case 1:
-                        $capannone1 = $capannone1 - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 3:
-                        $capannone3 = $capannone3 - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 4:
-                        $capannone4 = $capannone4 - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 5:
-                        $capannone5 = $capannone5 - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case "A":
-                        $capannoneA = $capannoneA - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case "B":
-                        $capannoneB = $capannoneB - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 6:
-                        $capannone6 = $capannone6 - floatval($c->Qta*$lotto_minimo);
-                        break;
-                }
-            }
-            foreach ($consumo_I as $c) {
-                $lotto_minimo = DB::SELECT('SELECT LottoMinimo FROM AR WHERE Cd_AR = \''.$c->Cd_AR.'\'')[0]->LottoMinimo;
-                $finale = substr($c->Cd_ARLotto,'5');
-                switch($finale){
-                    case 1:
-                        $capannone1_I = $capannone1_I - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 3:
-                        $capannone3_I = $capannone3_I - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 4:
-                        $capannone4_I = $capannone4_I - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 5:
-                        $capannone5_I = $capannone5_I - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case "A":
-                        $capannoneA_I = $capannoneA_I - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case "B":
-                        $capannoneB_I = $capannoneB_I - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 6:
-                        $capannone6_I = $capannone6_I - floatval($c->Qta*$lotto_minimo);
-                        break;
-                }
-            }
-            foreach ($consumo_D as $c) {
-                $lotto_minimo = DB::SELECT('SELECT LottoMinimo FROM AR WHERE Cd_AR = \''.$c->Cd_AR.'\'')[0]->LottoMinimo;
-                $finale = substr($c->Cd_ARLotto,'5');
-                switch($finale){
-                    case 1:
-                        $capannone1_D = $capannone1_D - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 3:
-                        $capannone3_D = $capannone3_D - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 4:
-                        $capannone4_D = $capannone4_D - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 5:
-                        $capannone5_D = $capannone5_D - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case "A":
-                        $capannoneA_D = $capannoneA_D - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case "B":
-                        $capannoneB_D = $capannoneB_D - floatval($c->Qta*$lotto_minimo);
-                        break;
-                    case 6:
-                        $capannone6_D = $capannone6_D - floatval($c->Qta*$lotto_minimo);
-                        break;
-                }
-            }
-            return View::make('produzione3', compact('fornitore', 'id_dotes','Id_DoTes_I','Id_DoTes_D','documento','articolo','capannone1','capannone3','capannone4','capannone5','capannoneA','capannoneB','capannone6','capannone1_I','capannone3_I','capannone4_I','capannone5_I','capannoneA_I','capannoneB_I','capannone6_I','capannone1_D','capannone3_D','capannone4_D','capannone5_D','capannoneA_D','capannoneB_D','capannone6_D'));
+            return View::make('produzione3', compact('fornitore', 'id_dotes','documento'));
 
         }
 

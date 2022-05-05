@@ -332,7 +332,7 @@
                             </div>
                         </a>
                     </li>
--->
+
 
                     <li class="list-group-item">
                         <a class="media" href="<?php echo URL::asset('magazzino/inventario') ?>" >
@@ -342,7 +342,7 @@
                             </div>
                         </a>
                     </li>
-
+-->
 
                 </ul>
 

@@ -33,33 +33,13 @@ class ArcaUtilsController extends Controller{
 
 
         $cd_do = DB::SELECT('SELECT * FROM DOTES WHERE Id_DOTes = \''.$id_ordine.'\'')[0]->Cd_Do;
-        if(str_replace(' ','',$cd_do)=='CPI' ||str_replace(' ','',$cd_do)=='PRV'||str_replace(' ','',$cd_do)=='OC') {
-            $controllo = DB::SELECT('SELECT * FROM ARLotto WHERE Cd_ARLotto = \'' . $lotto . '\' and Cd_AR = \'' . $codice_articolo . '\' ');
-            if (sizeof($controllo) == '0') {
-                if($lotto != 'Nessun Lotto'|| $lotto != '0') {
-                    $dayS = date('Y-m-d', strtotime("2022-01-00 +" . substr($lotto, '0', '3') . "day"));
-                    $scadenza = date('Y-m-d', strtotime("+28 day" . $dayS));
-                    DB::table('ARLotto')->insertGetId(['Cd_AR' => $codice_articolo, 'Cd_ARLotto' => $lotto, 'Descrizione' => 'Lotto ' . $lotto . '', 'DataScadenza' => $scadenza, 'Cd_CF' => 'F000123']);
-                }
-            }
-        }
-        if(str_replace(' ','',$cd_do)=='CPI'){
-            $day = substr($lotto,'0','3');
-            $day = date('Y-m-d', strtotime("2022-01-00 +".$day."day"));
-            $id_ordine = DB::SELECT('SELECT * FROM DOTes WHERE DataDoc = \''.$day.'\' AND Cd_DO = \'CPI\' ');
-            if(sizeof($id_ordine) == '0')
-                $id_ordine = DB::table('DOTes')->insertGetId(['Cd_Do' => $cd_do, 'Cd_LS_1' => 'UACQ','Cd_CF'=>'F000123','DataDoc'=>$day]);
-            else
-                $id_ordine = $id_ordine[0]->Id_DoTes;
-        }
+
         $magazzino_P = str_replace(' ','',$magazzino_P);
         $magazzino_P = str_replace('-','',$magazzino_P);
         $magazzino_A = str_replace(' ','',$magazzino_A);
         $magazzino_A = str_replace('-','',$magazzino_A);
 
-        $colli    = intval($quantita);
-        $xqtaconf = DB::SELECT('SELECT * FROM AR WHERE Cd_AR=\''.$codice_articolo.'\'')[0]->xqtaconf;
-        $quantita = intval($quantita)*intval($xqtaconf);
+        $quantita = intval($quantita);
         if ($lotto == 'Nessun Lotto')
         {
             $lotto='0';
@@ -94,8 +74,6 @@ class ArcaUtilsController extends Controller{
             if (sizeof($articoli) > 0) {
                 $articolo = $articoli[0];
                 $insert_righe_ordine['Id_DoTes'] = $id_ordine;
-                $insert_righe_ordine['xcolli'] = $colli;
-                $insert_righe_ordine['xqtaconf'] = $xqtaconf;
                 $insert_righe_ordine['Cd_AR'] = $articolo->Cd_AR;
                 $insert_righe_ordine['Riga'] = $RIGA;
                 $insert_righe_ordine['Descrizione'] = $articolo->Descrizione;
@@ -105,15 +83,8 @@ class ArcaUtilsController extends Controller{
                 $insert_righe_ordine['Qta'] = $quantita;
                 $insert_righe_ordine['QtaEvadibile'] = $quantita;
                 $insert_righe_ordine['Cambio'] = 1;
-                /*
-                if(str_replace(' ','',$cd_do) == 'PRV' || str_replace(' ','',$cd_do) == 'OC'){
-                    $insert_righe_ordine['Cd_MG_A'] = $magazzino_P;
-                    $insert_righe_ordine['Cd_MG_P'] = $magazzino_A;
-                    if ($insert_righe_ordine['Cd_MG_A'] == '0')
-                        unset($insert_righe_ordine['Cd_MG_A']);
-                    if ($insert_righe_ordine['Cd_MG_P'] == '0')
-                        unset($insert_righe_ordine['Cd_MG_P']);
-                }else {*/
+                $insert_righe_ordine['Mipaaf'] = 0;
+
                 if ($magazzino_A != '0')
                     $insert_righe_ordine['Cd_MG_A'] = $magazzino_A;
                 if ($magazzino_P != '0')
@@ -150,12 +121,12 @@ class ArcaUtilsController extends Controller{
                         $insert_righe_ordine['PrezzoUnitarioV'] = $prezzo[0]->Prezzo;
                     if($insert_righe_ordine['PrezzoUnitarioV'] == '') {
                         $prezzo = DB::SELECT('SELECT Prezzo from LSScARCFGruppo where Cd_AR = \'' . $codice_articolo . '\' and Cd_CF = \''.$fornitore.'\' and DaData <= GETDATE() and AData >= GETDATE()');
-                        if($prezzo != '')
+                        if(sizeof($prezzo) != 0)
                             $insert_righe_ordine['PrezzoUnitarioV'] = $prezzo[0]->Prezzo;
                     }
                     if($insert_righe_ordine['PrezzoUnitarioV'] == ''){
-                        $prezzo = DB::SELECT('SELECT * FROM DORIG WHERE Cd_AR = \''.$codice_articolo.'\' and Cd_DO in(\'OC\') and Order By Id_DORig DESC ');
-                        if($prezzo =='')
+                        $prezzo = DB::SELECT('SELECT * FROM DORIG WHERE Cd_AR = \''.$codice_articolo.'\' and Cd_DO in(\'OC\')  Order By Id_DORig DESC ');
+                        if(sizeof($prezzo) == 0)
                             $insert_righe_ordine['PrezzoUnitarioV'] = '0';
                         else
                             $insert_righe_ordine['PrezzoUnitarioV'] = $prezzo[0]->PrezzoUnitarioV;
@@ -169,7 +140,14 @@ class ArcaUtilsController extends Controller{
                 $Id_DORig = DB::SELECT('SELECT top 1 * FROM DORig order by Id_DORig desc ')[0]->Id_DORig;
                 if ($lotto != '0')
                 {
-                    DB::update("Update DoRig set Cd_ARLotto = '$lotto' where id_dorig = '$Id_DORig'");
+                    $controllo_lotto = DB::SELECT('SELECT * FROM ARLotto where Cd_AR = \''.$articolo->Cd_AR.'\' and Cd_ARLotto = \''.$lotto.'\'');
+                    if(sizeof($controllo_lotto) != '0')
+                        DB::update("Update DoRig set Cd_ARLotto = '$lotto' where id_dorig = '$Id_DORig'");
+                    else {
+                        DB::table('ARLotto')->insertGetId(['Cd_AR' => $articolo->Cd_AR, 'Cd_ARLotto' => $lotto, 'Descrizione' => 'Lotto '.$lotto]);
+                        DB::update("Update DoRig set Cd_ARLotto = '$lotto' where id_dorig = '$Id_DORig'");
+                    }
+
                 }
                 if ($ubicazione_A != '0') {
                     DB::update("Update DoRig set Cd_MGUbicazione_A = '$ubicazione_A' where id_dorig = '$Id_DORig' ");

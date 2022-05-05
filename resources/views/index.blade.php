@@ -52,6 +52,7 @@
                                 </a>
 
                             </li>
+                            <!--
                             <li class="list-group-item">
                                 <a href="<?php echo URL::asset('magazzino') ?>" class="media">
                                     <div class="media-body">
@@ -60,8 +61,17 @@
                                     </div>
                                 </a>
                             </li>
+                            -->
                             <li class="list-group-item">
-                                <a href="<?php echo URL::asset('magazzino/produzione2/CPI') ?>" class="media">
+                                <a href="<?php echo URL::asset('magazzino/inventario') ?>" class="media">
+                                    <div class="media-body">
+                                        <h5>Inventario</h5>
+                                        <p>Effettua Inventario Rettificando le Quantità</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="<?php echo URL::asset('magazzino/produzione3') ?>" class="media">
                                     <div class="media-body">
                                         <h5>CPI</h5>
                                         <p>Carico Produzione Interna</p>
