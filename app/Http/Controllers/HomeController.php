@@ -365,7 +365,7 @@ class HomeController extends Controller{
                 $Id_DB = $Id_DB[0]->Id_DB;
             }
             else
-                exit();
+                break;
             $esploso = DB::SELECT('SELECT * FROM DBMateriale WHERE Id_DB = \'' . $Id_DB . '\' ');
 
             $Riga = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Riga;

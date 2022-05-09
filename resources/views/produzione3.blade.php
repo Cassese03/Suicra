@@ -771,7 +771,6 @@
                 $('#modal_Cd_AR').val('');
                 $('#modal_quantita').val('');
                 magazzino = $('#modal_magazzino').val();
-                alert(result);
                 location.reload();
 
             });
