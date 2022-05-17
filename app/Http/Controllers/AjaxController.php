@@ -30,6 +30,16 @@ class AjaxController extends Controller{
 
         DB::UPDATE("UPDATE DORIG SET Qta = '$qta' WHERE Id_DORig = '$dorig'");
     }
+    public function cambia_articolo($dorig,$articolo)
+    {
+
+        $controllo = DB::SELECT('SELECT * FROM AR WHERE Cd_AR = \''.$articolo.'\'');
+        if(sizeof($controllo) > 0 ){
+            $descrizione = $controllo[0]->Descrizione;
+            $descrizione = str_replace('\'','',$descrizione);
+            DB::UPDATE("UPDATE DORIG SET Cd_AR = '$articolo', Descrizione = '$descrizione  ' WHERE Id_DORig = '$dorig'");
+        }
+    }
 
     public function cambia_lotto($dorig,$lotto)
     {
@@ -142,7 +152,7 @@ class AjaxController extends Controller{
 
         $data = date('d-m-Y',$data);
 
-        $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_MG,Cd_ARLotto FROM MGMov WHERE Cd_AR = \''.$articolo.'\'  GROUP BY Cd_AR,Cd_ARLotto,Cd_MG HAVING SUM(QuantitaSign) > 0  ');
+        $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_ARLotto FROM MGMov WHERE Cd_AR = \''.$articolo.'\'  GROUP BY Cd_AR,Cd_ARLotto HAVING SUM(QuantitaSign) > 0  ');
 
         foreach ($giacenza as $g){
             ?>
@@ -566,7 +576,7 @@ class AjaxController extends Controller{
 
         $magazzini = DB::select('SELECT * from MG WHERE Cd_MG !=\''.$magazzino_selezionato.'\' ');
 
-        $date = date('Y-m-d',strtotime('today')) ;
+        $date = date('d-m-Y',strtotime('today')) ;
 
         IF($Cd_ARLotto!='0')
             $lotto = DB::select('SELECT * FROM ARLotto WHERE Cd_AR = \'' . $codice . '\' and Cd_ARLotto !=\''.$Cd_ARLotto.'\' and Cd_ARLotto in (select Cd_ARLotto from MGMov group by Cd_ARLotto having SUM(QuantitaSign) >= 0) AND DataScadenza > \''.$date.'\' ORDER BY TimeIns DESC  ');
@@ -745,8 +755,8 @@ class AjaxController extends Controller{
         if(str_replace(' ','',$documento)=='CPI' ||str_replace(' ','',$documento)=='PRV'||str_replace(' ','',$documento)=='OC'||str_replace(' ','',$documento)=='B2'||str_replace(' ','',$documento)=='FA') {
             $controllo = DB::SELECT('SELECT * FROM ARLotto WHERE Cd_ARLotto = \'' . $lotto . '\' and Cd_AR = \'' . $cd_ar . '\' ');
             if (sizeof($controllo) == '0') {
-                $dayS = date('Y-m-d', strtotime("2022-01-00 +" . substr($lotto, '0', '3') . "day"));
-                $scadenza = date('Y-m-d', strtotime("+28 day" . $dayS));
+                $dayS = date('d-m-Y', strtotime("2022-01-00 +" . substr($lotto, '0', '3') . "day"));
+                $scadenza = date('d-m-Y', strtotime("+28 day" . $dayS));
                 DB::table('ARLotto')->insertGetId(['Cd_AR' => $cd_ar, 'Cd_ARLotto' => $lotto, 'Descrizione' => 'Lotto ' . $lotto . '', 'DataScadenza' => $scadenza, 'Cd_CF' => 'F000123']);
             }
         }
@@ -773,7 +783,7 @@ class AjaxController extends Controller{
             $cd_cf ='F000274';
         $xqtaconf = DB::SELECT('SELECT * FROM AR WHERE CD_AR = \''.$cd_ar.'\'')[0]->xqtaconf;
         if($Id_DoTes == '') {
-            $date = date('Y-m-d H:i:s',strtotime('now')) ;
+            $date = date('d-m-Y H:i:s',strtotime('now')) ;
             $Id_DoTes = DB::table('DOTes')->insertGetId(['Cd_CF' => $cd_cf, 'Cd_Do' => $documento, 'TrasportoDataOra'=> $date ,'Cd_DoAspBene' =>'CA','Cd_DoPorto' =>'01', 'Cd_DoSped'=>'02', 'Cd_DoTrasporto'=>'01']);
             if (str_replace(' ', '', $documento) == 'FA')
                 $Id_DoTes = DB::SELECT('SELECT * FROM DOTES WHERE Cd_Do = \'FA\' ORDER BY Id_DoTes DESC')[0]->Id_DoTes;
@@ -1200,7 +1210,7 @@ class AjaxController extends Controller{
             $quantita = 0;
             $disponibilita = DB::select('SELECT ISNULL(sum(QuantitaSign),0) as disponibilita from MGMOV where Cd_MGEsercizio = '.date('Y').' and Cd_AR = \'' . $articolo->Cd_AR . '\'');
             if (sizeof($disponibilita) > 0) {
-                $data =  date('Y-m-d',strtotime('today')) ;
+                $data =  date('d-m-Y',strtotime('today')) ;
                 $prova = DB::SELECT('SELECT ISNULL(sum(QuantitaSign),0) as disponibilita,Cd_ARLotto,Cd_MG from MGMOV where Cd_MGEsercizio = '.date('Y').' and Cd_AR = \'' . $articolo->Cd_AR . '\' and Cd_ARLotto IS NOT NULL group by Cd_ARLotto, Cd_MG HAVING SUM(QuantitaSign)!= 0  ');
             }
 

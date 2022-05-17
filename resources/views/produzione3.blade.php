@@ -117,6 +117,10 @@
         position: relative;
     }
 
+    ::placeholder {
+        color: blue;
+        opacity: 1;
+    }
     #interactive.viewport > canvas, #interactive.viewport > video {
         max-width: 100%;
         width: 100%;
@@ -409,7 +413,12 @@
                 <div class="form__group field" style="width: 100%;">
                     <div class="row" style="text-align:center">
                         <div class="col-sm-12">
-                          <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Articolo" name="cerca_articolo1" id='cerca_articolo1' required />
+                          <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Articolo" list="articoli" name="cerca_articolo1" id='cerca_articolo1' required />
+                            <datalist id="articoli">
+                                <?php foreach($articolo as $a){?>
+                                <option value="<?php echo $a->Cd_AR?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione ?></option>
+                                <?php } ?>
+                            </datalist>
                           <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Quantita" name="cerca_quantita1" id='cerca_quantita1' required />
                           <input type="input" class="col-xs-3 col-sm-3 col-md-3 form__field" placeholder="Lotto" name="cerca_lotto1" id='cerca_lotto1' required />
                         </div>
@@ -454,7 +463,12 @@
                                         </td>
                                     <?php }else{?>
                                         <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left:50px;">
-                                            <label style="color:blue;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
+                                            <input style="width: 125%;border-color: transparent;color:blue;margin-bottom:-0.5rem;font-size:14px;font-weight:bold" list="articoli" id="articolo_<?php echo $r->Id_DORig?>" onblur="cambiaarticolo(<?php echo $r->Id_DORig?>)" placeholder="<?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?>">
+                                            <datalist id="articoli">
+                                                <?php foreach($articolo as $a){?>
+                                                <option value="<?php echo $a->Cd_AR?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione ?></option>
+                                                <?php } ?>
+                                            </datalist>
                                         </td>
                                     <?php } ?>
                                     <?php if($r->TipoPC == 'P'){?>
@@ -719,6 +733,8 @@
 
     function aggiungi(){
         codice = document.getElementById('cerca_articolo1').value;
+        pos = codice.search(' - ');
+        codice = codice.substr(0,pos);
         lotto  = document.getElementById('cerca_lotto1').value;
         quantita = document.getElementById('cerca_quantita1').value;
         scarica_articolo();
@@ -821,7 +837,21 @@
         }
         location.reload();
     }
-    function ciao(){alert('ciao');}
+    function cambiaarticolo(dorig){
+
+        articolo = document.getElementById('articolo_'+dorig).value;
+
+        if(articolo != ''){
+            $.ajax({
+                url: "<?php echo URL::asset('ajax/cambia_articolo') ?>/"+dorig+"/"+articolo,
+            }).done(function(result) {
+                location.reload();
+            });
+
+        }
+        location.reload();
+    }
+
     function scarica_articolo1(){
 
         q = $('#cerca_articolo1').val();

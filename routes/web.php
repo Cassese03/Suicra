@@ -99,6 +99,7 @@ Route::any('ajax/storialotto/{cd_ar}/{lotto}', 'AjaxController@storialotto');
 Route::any('ajax/segnalazione/{dotes}/{dorig}/{testo}', 'AjaxController@segnalazione');
 Route::any('ajax/cambia_qta/{dorig}/{qta}', 'AjaxController@cambia_qta');
 Route::any('ajax/cambia_lotto/{dorig}/{lotto}', 'AjaxController@cambia_lotto');
+Route::any('ajax/cambia_articolo/{dorig}/{articolo}', 'AjaxController@cambia_articolo');
 Route::any('ajax/segnalazione_salva/{dotes}/{dorig}/{testo}', 'AjaxController@segnalazione_salva');
 Route::any('ajax/cerca_articolo_barcode/{cd_cf}/{barcode}', 'AjaxController@cerca_articolo_barcode');
 Route::any('ajax/evadi_documento/{dotes}/{cd_do}/{magazzino_A}', 'AjaxController@evadi_documento');

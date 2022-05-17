@@ -337,7 +337,7 @@ class HomeController extends Controller{
             */
 
         }
-        $date = date('Y-m-d',strtotime('today')) ;
+        $date = date('d-m-Y',strtotime('today')) ;
         $fornitori = DB::select('SELECT * from CF where Fornitore = 1 and Cd_CF = \'FPROD\'');
         $documenti = DB::select('SELECT * from DOTes where Cd_DO = \'CP\' and DataDoc = \''.$date.'\'');
         if(sizeof($documenti)<= 0 ){
@@ -369,7 +369,7 @@ class HomeController extends Controller{
             $esploso = DB::SELECT('SELECT * FROM DBMateriale WHERE Id_DB = \'' . $Id_DB . '\' ');
 
             $Riga = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Riga;
-            $date = date('Y-m-d', strtotime($daat[0]->DataDoc));
+            $date = date('d-m-Y', strtotime($daat[0]->DataDoc));
 
             foreach ($esploso as $e) {
 
@@ -448,16 +448,17 @@ class HomeController extends Controller{
 
 
         if(sizeof($fornitori) > 0){
+            $articolo = DB::SELECT('SELECT * FROM AR');
             $fornitore = $fornitori[0];
             $documento = $documenti[0];
             $id_dotes = $documento->Id_DoTes;
-            $data = date('Y-m-d',strtotime($documento->DataDoc)) ;
+            $data = date('d-m-Y',strtotime($documento->DataDoc)) ;
             $documento->righe = DB::select('SELECT * from DORig where Id_DoTes = \''.$id_dotes.'\' order by Riga,Id_DoRig asc');
             foreach ($documento->righe as $r)
             {
                 $r->lotti = DB::select('SELECT * FROM ARLotto WHERE Cd_AR = \''.$r->Cd_AR.'\' AND DataScadenza > \''.$date.'\' ORDER BY TimeIns DESC ');
             }
-            return View::make('produzione3', compact('fornitore', 'id_dotes','documento'));
+            return View::make('produzione3', compact('fornitore', 'id_dotes','documento','articolo'));
 
         }
 
@@ -836,7 +837,7 @@ class HomeController extends Controller{
         $documenti = DB::select('SELECT * from DOTes where Id_DoTes in ('.$id_dotes.')');
         if(sizeof($fornitori) > 0){
             $fornitore = $fornitori[0];
-            $date = date('Y-m-d',strtotime('today')) ;
+            $date = date('d-m-Y',strtotime('today')) ;
             foreach($documenti as $documento)
                 $documento->righe = DB::select('SELECT * from DORig where Id_DoTes in ('.$id_dotes.')  ORDER BY QtaEvadibile DESC');
 
