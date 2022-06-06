@@ -52,7 +52,7 @@
                                 </a>
 
                             </li>
-                            <!--
+
                             <li class="list-group-item">
                                 <a href="<?php echo URL::asset('magazzino') ?>" class="media">
                                     <div class="media-body">
@@ -61,7 +61,7 @@
                                     </div>
                                 </a>
                             </li>
-                            -->
+
                             <li class="list-group-item">
                                 <a href="<?php echo URL::asset('magazzino/inventario') ?>" class="media">
                                     <div class="media-body">

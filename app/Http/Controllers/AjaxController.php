@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\JsonEncodingException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -15,6 +17,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use NGT\Barcode\GS1Decoder\Decoder;
 use Symfony\Component\VarDumper\Cloner\Data;
+use function PHPUnit\Framework\returnArgument;
 
 
 /**
@@ -24,7 +27,70 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 
 class AjaxController extends Controller{
+/*
+    public function invio(){
 
+        $path = 'C:/Users/Work4/Desktop/Screenshot_4.png';
+        $base64 = base64_encode(file_get_contents($path));
+
+        $oggetto = array('immagine' => $base64);
+
+        $newJsonString = json_encode($oggetto);
+
+        //file_put_contents(base_path('provajson'), stripslashes($newJsonString));
+
+        //  $newJsonString  = base64_encode($newJsonString);
+
+        // API URL
+
+        $url = 'https://arcalogisticsuicra.local/ajax/provajson';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $newJsonString);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_PORT, 443);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        $result = curl_exec($ch);
+        echo $result;
+        curl_close($ch);
+
+    }
+
+    public function provajson(Request $request){
+
+
+        $dati = $request->all();
+        print_r($dati);
+        $img = $dati['immagine'];
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        $rand = rand(1,100);
+        $fp = fopen ( "C:/Users/Work4/Desktop/" .$rand.".png","w+");
+        fwrite($fp,$data) ;
+        /* echo 'Token :'.$token.'<br>';
+         echo 'Messaggio :'.$dati['messaggio'];
+         echo 'Contatto :'.$dati['Contatto'];
+         $json = 'Token :'.$token.'<br>Messaggio :'.$dati['messaggio'].'Contatto :'.$dati['Contatto'];*/
+       /*echo 'C:/Users/Work4/Desktop/'.$rand.'.png';
+        echo '<img src="public/image/61.png" alt="DDT" style="width:100%;z-index:1">';
+        exit();
+
+        $jsonString  = base64_decode($jsonString);
+
+
+        //$jsonString2 = file_get_contents(base_path('provajson'));
+/*
+        $data = json_decode($jsonString, true);
+
+        echo $data['immagine'];
+
+        file_put_contents($data, file_get_contents($jsonString));
+    }*/
     public function cambia_qta($dorig,$qta)
     {
 
@@ -858,17 +924,15 @@ class AjaxController extends Controller{
     public function crea_documento($cd_cf,$cd_do,$numero,$data,$listino){
 
         $insert_testata_ordine['Cd_CF'] = $cd_cf;
-        $insert_testata_ordine['Cd_Do'] = $cd_do;
+        $insert_testata_ordine['Cd_Do'] = $cd_do;/*
         if(str_replace(' ','',$cd_do) != 'CPI' && str_replace(' ','',$cd_do) != 'PRV' && str_replace(' ','',$cd_do) != 'OC' && str_replace(' ','',$cd_do) != 'FA'&& str_replace(' ','',$cd_do) != 'B2')
             $insert_testata_ordine['Cd_Agente_1'] = '0'.substr($cd_do, 1);
         if(substr($cd_do, 0,1) == 'O')
-            $insert_testata_ordine['Cd_LS_1'] = '0000003';
+            $insert_testata_ordine['Cd_LS_1'] = '0000003';*/
         $insert_testata_ordine['NumeroDoc'] = $numero;
         $data = str_replace('-','',$data);
         $insert_testata_ordine['DataDoc'] = $data;
         $Id_DOTes = DB::table('DOTes')->insertGetId($insert_testata_ordine);
-        if($listino != '0')
-            DB::UPDATE("Update DOTes set Cd_LS_1 = '$listino' WHERE Id_DOTes = '$Id_DOTes'");
         echo $Id_DOTes;
     }
 
@@ -876,11 +940,11 @@ class AjaxController extends Controller{
     public function crea_documento_rif($cd_cf,$cd_do,$numero,$data,$numero_rif,$data_rif){
 
         $insert_testata_ordine['Cd_CF'] = $cd_cf;
-        $insert_testata_ordine['Cd_Do'] = $cd_do;
+        $insert_testata_ordine['Cd_Do'] = $cd_do;/*
         if(str_replace(' ','',$cd_do)!= 'CPI' && str_replace(' ','',$cd_do) != 'PRV' && str_replace(' ','',$cd_do) != 'OC'&& str_replace(' ','',$cd_do) != 'FA'&& str_replace(' ','',$cd_do) != 'B2')
             $insert_testata_ordine['Cd_Agente_1'] = '0'.substr($cd_do, 1);
         if(substr($cd_do, 0,1) == 'O')
-            $insert_testata_ordine['Cd_LS_1'] = '0000003';
+            $insert_testata_ordine['Cd_LS_1'] = '0000003';*/
         $insert_testata_ordine['NumeroDoc'] = $numero;
         $data = str_replace('-','',$data);
         $insert_testata_ordine['DataDoc'] = $data;
@@ -961,7 +1025,7 @@ class AjaxController extends Controller{
             }
         }
         $where = ' where 1=1 ';
-        $where .= ' and AR.Cd_AR like \'' . $testo . '\'';
+        $where .= ' and AR.Cd_AR = \'' . $testo . '\'';
         $lotto = substr($q, '8', '6');
         if ($cd_cf[0] == 'C'){
             $articoli = DB::select('SELECT TOP 1 AR.[Id_AR],AR.[Cd_AR],AR.[Descrizione],ARLotto.[Cd_ARLotto] FROM AR LEFT JOIN ARLotto on AR.Cd_AR = ARLotto.Cd_AR ' . $where . '  Order By Id_AR DESC');
@@ -1002,7 +1066,7 @@ class AjaxController extends Controller{
                 }
         */
         if(sizeof($articoli) == '0') {
-            $articoli = DB::select('SELECT AR.[Id_AR],AR.[Cd_AR],AR.[Descrizione],ARLotto.[Cd_ARLotto] FROM AR LEFT JOIN ARLotto ON AR.Cd_AR = ARLotto.Cd_ARLotto LEFT JOIN ARAlias ON ARAlias.Cd_AR = AR.Cd_AR where AR.Cd_AR Like \'' . $q . '%\' or  AR.Descrizione Like \'%' . $q . '%\' or AR.CD_AR IN (SELECT CD_AR from ARAlias where Alias LIKE \'%' . $q . '%\') Order By AR.Id_AR DESC');
+            $articoli = DB::select('SELECT AR.[Id_AR],AR.[Cd_AR],AR.[Descrizione],ARLotto.[Cd_ARLotto] FROM AR LEFT JOIN ARLotto ON AR.Cd_AR = ARLotto.Cd_ARLotto LEFT JOIN ARAlias ON ARAlias.Cd_AR = AR.Cd_AR where AR.Cd_AR = \'' . $q . '\' or  AR.Descrizione Like \'%' . $q . '%\' or AR.CD_AR IN (SELECT CD_AR from ARAlias where Alias LIKE \'%' . $q . '%\') Order By AR.Id_AR ASC');
         }
         foreach($articoli as $articolo){ ?>
 

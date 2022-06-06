@@ -262,7 +262,7 @@ class HomeController extends Controller{
         if(!session()->has('utente')) {
             return Redirect::to('login');
         }
-        $documenti = DB::select('SELECT * FROM DO WHERE (Cd_Do LIKE \'%K0%\' OR Cd_DO LIKE \'%K1%\'   and CliFor = \'F\') ORDER BY Cd_DO DESC ');
+        $documenti = DB::select('SELECT * FROM DO WHERE Cd_Do in( \'BC\' ) and CliFor = \'F\' ORDER BY Cd_DO DESC ');
         return View::make('passivi',compact('documenti'));
     }
 
@@ -814,16 +814,7 @@ class HomeController extends Controller{
                 unset($dati['Cd_ARLotto']);
             }
             $dati['Cd_MG_P']='00001';
-            if($dati['Cd_MG_A']!= '00001')
-                $dati['Cd_MG_A']=str_replace('K','0',$cd_do);
-            $EVADI = intval($dati['Qta']) - intval($dati['QtaEvadibile']);
-            $dati['Qta'] = intval($dati['xcolli']) * intval($dati['xqtaconf']);
-
-            if($EVADI != '0')
-                $dati['QtaEvadibile'] =  intval($dati['Qta']) - intval($EVADI) ;
-            else
-                $dati['QtaEvadibile'] =  $dati['Qta'];
-
+            $dati['QtaEvadibile'] = $dati['Qta'];
 
             DB::table('DoRig')->where('Id_DoRig',$id_riga)->update(['Cd_ARLotto'=>Null]);
             DB::table('DoRig')->where('Id_DoRig',$id_riga)->update(['Cd_MGUbicazione_A'=>Null]);
@@ -843,7 +834,7 @@ class HomeController extends Controller{
 
             foreach ($documento->righe as $r)
             {
-                $r->lotti = DB::select('SELECT * FROM ARLotto WHERE Cd_AR = \''.$r->Cd_AR.'\'  AND DataScadenza > \''.$date.'\' ORDER BY TimeIns DESC');
+                $r->lotti = DB::select('SELECT * FROM ARLotto WHERE Cd_AR = \''.$r->Cd_AR.'\'   ORDER BY TimeIns DESC');
             }
             $articolo = DB::select('SELECT Cd_AR from DORig where Id_DoTes in ('.$id_dotes.') group by Cd_AR');
             $flusso = DB::SELECT('select * from DODOPrel where Cd_DO_Prelevabile =\''.$cd_do.'\'  ');

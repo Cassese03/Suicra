@@ -54,14 +54,7 @@
                     <?php  foreach($documenti as $d){ ?>
 
                     <li class="list-group-item">
-                        <a <?php switch($d->Cd_Do){
-                            case "OC ":
-                                echo 'href="/magazzino/carico02/'.$d->Cd_Do.'"';
-                                break;
-                            default:
-                                echo 'href="/magazzino/carico03/2480/'.$d->Cd_Do.'"';
-                                break;
-                        }?>class="media">
+                        <a <?php echo 'href="/magazzino/carico2/'.$d->Cd_Do.'"';?> class="media">
                         <div class="media-body">
                                 <h5><?php echo $d->Cd_Do ?></h5>
                                 <p> <?php echo $d->Descrizione ?></p>

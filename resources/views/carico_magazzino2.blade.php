@@ -55,7 +55,7 @@
                     <?php  foreach($fornitori as $f){ ?>
 
                         <li class="list-group-item">
-                            <a href="/magazzino/carico3/<?php echo $f->Id_CF ?>/<?php  echo $documenti ?>" class="media">
+                            <a href="/magazzino/carico03/<?php echo $f->Id_CF ?>/<?php  echo $documenti ?>" class="media">
                                 <div class="media-body">
                                     <h5><?php echo $f->Cd_CF ?></h5>
                                     <p>Nome: <?php echo $f->Descrizione ?></p>

@@ -335,7 +335,7 @@
 
 
 
-                    <div class="col-sm-6" style="margin-top:0px;">
+                    <div class="col-sm-12" style="margin-top:0px;">
                         <ul class="list-group">
 
                             <?php foreach($documento->righe as $r){ $totale = 0; ?>
@@ -343,32 +343,34 @@
                             <li class="list-group-item">
                                 <a href="#" onclick="" class="media">
                                     <div class="media-body">
-                                        <div class="row" style="padding-left:25px;padding-right:25px;">
-                                            <div class="col-xs-6 col-sm-6 col-md-6">
-                                                <h5 <?php if($r->QtaEvadibile==0)echo 'style="color: red"'?>><?php echo $r->Cd_AR.' '.$r->Descrizione;?><br><?php echo' Magazzino di Partenza : '.$r->Cd_MG_P.' <br> Magazzino di Arrivo : '.$r->Cd_MG_A;if($r->Cd_MGUbicazione_A != null) echo '<br>  Ubicazione di Arrivo : '.$r->Cd_MGUbicazione_A;?><br><?php if($r->Cd_ARLotto != Null)echo 'Lotto : '.$r->Cd_ARLotto?></h5>
-                                                <p <?php if($r->QtaEvadibile==0)echo 'style="color: red"'?>> Colli : <?php echo floatval($r->xcolli)?> / Quantita' : <?php echo floatval($r->Qta) ?> </p>
+                                        <div class="row" style="text-align: center">
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <h5 <?php if($r->QtaEvadibile==0)echo 'style="color: red"'?>><?php echo $r->Cd_AR.' '.$r->Descrizione;?><br><?php echo' Magazzino di Arrivo : '.$r->Cd_MG_A;if($r->Cd_MGUbicazione_A != null) echo '<br>  Ubicazione di Arrivo : '.$r->Cd_MGUbicazione_A;?><br><?php if($r->Cd_ARLotto != Null)echo 'Lotto : '.$r->Cd_ARLotto?></h5>
+                                                <p <?php if($r->QtaEvadibile==0)echo 'style="color: red"'?>> Quantita' : <?php echo floatval($r->Qta) ?> </p>
                                             </div>
+                                        </div>
                                             <form  method="post" onsubmit="return confirm('Vuoi Eliminare Questa Riga ?')">
 
 
 
-                                                <div class="row" style="padding-left:25px;padding-right:25px;">
+                                                <div class="row" style="text-align: center;padding-left:25px;padding-right:25px;">
+
                                                     <input type="hidden" id="codice" value="<?php echo $r->Cd_AR ?>">
-                                                    <div class="col-4 col-xs-6 col-sm-6 col-md-6 col-sm-6" style="padding-right: 5px;padding-left: 5px;">
+                                                    <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
                                                         <button  style="width:100%;" type="reset"  name="segnalazione" value="" class="btn btn-warning btn-sm" onclick="$('#modal_segnalazione<?php echo $r->Id_DORig?>').modal('show');" ><i class="fa fa-exclamation-triangle" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
                                                                     <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
                                                                     <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
                                                                 </svg></i></button>
                                                     </div>
 
-                                                    <div class="col-4 col-xs-6 col-sm-6 col-md-6 col-sm-6" style="padding-right: 5px;padding-left: 5px;">
+                                                    <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
                                                         <button  style="width:100%;" type="reset"  name="modifica_riga" value="<?php echo $r->Cd_AR;?>" class="btn btn-primary btn-sm" onclick="$('#modal_modifica_<?php echo $r->Id_DORig ?>').modal('show');" ><i class="bi bi-pencil"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                                                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                                 </svg></i></button>
                                                     </div>
 
 
-                                                    <div class="col-4 col-xs-6 col-sm-6 col-md-6 col-sm-6" style="padding-right: 5px;padding-left: 5px;">
+                                                    <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
                                                         <button  style="width:100%;" type="submit" name="elimina_riga" value="Elimina" class="btn btn-danger btn-sm" ><i class="bi bi-trash-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                                     <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                                                 </svg></i></button>
@@ -382,7 +384,6 @@
 
                                             </form>
                                         </div>
-                                    </div>
 
                                 </a>
                             </li>
@@ -508,11 +509,14 @@
                         <!--
                             <label>Prezzo (&euro;)</label>
                             <input class="form-control" type="number" id="modal_prezzo" value="" required placeholder="Inserisci un Prezzo" autocomplete="off">
-                        -->
+
                         <label>Magazzino Partenza</label>
                         <select class="form-control" type="number" id="modal_magazzino_P" value="" required placeholder="Inserisci un Magazzino" autocomplete="off";>
 
                         </select>
+                        -->
+                        <input class="form-control" type="hidden" id="modal_magazzino_P" value="0"  autocomplete="off" readonly>
+
                         <label>Magazzino Arrivo</label>
                         <select class="form-control" type="number" id="modal_magazzino_A" value="" required placeholder="Inserisci un Magazzino" autocomplete="off";>
                             <?php foreach($magazzino_ord as $mp){?>
@@ -524,9 +528,12 @@
                         <input type="text" class="form-control" id="modal_ubicazione_A" value="" placeholder="Inserire un Ubicazione..." autocomplete="off">
                         <?php } ?>
                         <label>Lotto</label>
+                        <input type="text" class="form-control" id="modal_lotto" value="" placeholder="Inserire un Lotto..." autocomplete="off">
+
+                        <!--
                         <select class="form-control" type="number" id="modal_lotto" value="" required placeholder="Inserisci un Lotto" autocomplete="off";>
                         </select>
-
+                        -->
 
 
                     </div>
@@ -613,12 +620,9 @@
                     <div class="modal-body">
                         <div id="ajax_modal_modifica"></div>
 
-                        <label>Colli</label>
-                        <input class="form-control" type="number" name="xcolli" value="<?php echo floatval($r->xcolli) ?>" required placeholder="Inserisci il numero dei colli" autocomplete="off" step="0.01">
-
 
                         <label>Quantita</label>
-                        <input class="form-control" type="number" name="Qta" value="<?php echo floatval($r->Qta) ?>" required placeholder="Inserisci una Quantità" autocomplete="off" step="0.01" readonly  >
+                        <input class="form-control" type="number" name="Qta" value="<?php echo floatval($r->Qta) ?>" required placeholder="Inserisci una Quantità" autocomplete="off" step="0.01" >
 
 
                     <!--
@@ -632,7 +636,6 @@
 
                         <input type="hidden" class="form-control"  name="modal_magazzino_A_m" id="modal_magazzino_A_m" value="00001 - MagazzinoWOW" required placeholder="Inserisci un Magazzino" autocomplete="off";>
 
-                        <input type="hidden" class="form-control"  name="xqtaconf" id="xqtaconf" value="<?php echo intval($r->xqtaconf)?>" required  autocomplete="off";>
 
                         <?php if($documento->Cd_Do=='DTG'){?>
                         <label>Ubicazione di Arrivo</label><small>(Facoltativo)</small>

@@ -269,7 +269,7 @@
                     <h1 class="text-center text-white title-background">Gestione Magazzino</h1>
                 </div>
 
-                <ul class="list-group">
+                <ul class="list-group" style="padding-top: 50px">
                     <li class="list-group-item">
                         <a href="<?php echo URL::asset('magazzino/passivi') ?>" class="media">
                             <div class="media-body">
@@ -278,6 +278,8 @@
                             </div>
                         </a>
                     </li>
+                <!--
+
 
                     <li class="list-group-item">
                         <a href="<?php echo URL::asset('magazzino/attivo') ?>" class="media">
@@ -287,7 +289,6 @@
                             </div>
                         </a>
                     </li>
-                <!--
                     <li class="list-group-item">
                         <a href="<?php echo URL::asset('magazzino/altri') ?>" class="media">
                             <div class="media-body">
