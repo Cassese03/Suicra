@@ -185,14 +185,14 @@
         transition: border-color 0.2s;
 
     ::placeholder {
-         color: transparent;
-     }
+        color: transparent;
+    }
 
     :placeholder-shown ~ .form__label {
-         font-size: 1.3rem;
-         cursor: text;
-         top: 20px;
-     }
+        font-size: 1.3rem;
+        cursor: text;
+        top: 20px;
+    }
     }
 
     .form__label {
@@ -408,24 +408,24 @@
                     <button style="width:50%;display:block;height: 30px;float: left;alignment: left" class="btn btn-primary" onclick="<?php //$('#modal_cerca_articolo').modal('show');?>aggiungi()"><h6 style="color: white">Aggiungi Prodotto</h6></button>
                     <button type="button" style="width:50%;display:block;background-color:red;border-color:red;height: 30px;float: right;alignment: right"   name="esplodi_riga" value="<?php echo $documento->Id_DoTes;?>" class="btn btn-primary" onclick="$('#modal_esplodi').modal('show')"><h6 style="color: white">Conferma Documento</h6></button>
                 </div>
-<?php //                <input type="text" id="cerca_articolo1" onchange="scarica_articolo1();" autofocus autocomplete="off" style="border:none;">?>
+                <?php //                <input type="text" id="cerca_articolo1" onchange="scarica_articolo1();" autofocus autocomplete="off" style="border:none;">?>
                 <br>
                 <div class="form__group field" style="width: 100%;">
                     <div class="row" style="text-align:center">
                         <div class="col-sm-12">
-                          <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Articolo" list="articoli" name="cerca_articolo1" id='cerca_articolo1' required />
+                            <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Articolo" list="articoli" name="cerca_articolo1" id='cerca_articolo1' required />
                             <datalist id="articoli">
                                 <?php foreach($articolo as $a){?>
                                 <option value="<?php echo $a->Cd_AR?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione ?></option>
                                 <?php } ?>
                             </datalist>
-                          <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Quantita" name="cerca_quantita1" id='cerca_quantita1' required />
-                          <input type="input" class="col-xs-3 col-sm-3 col-md-3 form__field" placeholder="Lotto" name="cerca_lotto1" id='cerca_lotto1' required />
+                            <input type="input" class="col-xs-4 col-sm-4 col-md-4 form__field" placeholder="Quantita" name="cerca_quantita1" id='cerca_quantita1' required />
+                            <input type="input" class="col-xs-3 col-sm-3 col-md-3 form__field" placeholder="Lotto" name="cerca_lotto1" id='cerca_lotto1' required />
                         </div>
                     </div>
                 </div>
                 <br>
-            <?php if(sizeof($documento->righe) > 0){ ?>
+                <?php if(sizeof($documento->righe) > 0){ ?>
                 <div class="row">
                     <div class="col-sm-12">
                         <table style="width: 100%">
@@ -458,18 +458,18 @@
                             <tr style="border:1px solid black;border-collapse: collapse;border-radius: 10px;">
                                 <div class="row">
                                     <?php if($r->TipoPC == 'P'){?>
-                                        <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left: -5px;">
-                                            <label style="color:black;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
-                                        </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left: -5px;">
+                                        <label style="color:black;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
+                                    </td>
                                     <?php }else{?>
-                                        <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left:50px;">
-                                            <input style="width: 125%;border-color: transparent;color:blue;margin-bottom:-0.5rem;font-size:14px;font-weight:bold" list="articoli" id="articolo_<?php echo $r->Id_DORig?>" onblur="cambiaarticolo(<?php echo $r->Id_DORig?>)" placeholder="<?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?>">
-                                            <datalist id="articoli">
-                                                <?php foreach($articolo as $a){?>
-                                                <option value="<?php echo $a->Cd_AR?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione ?></option>
-                                                <?php } ?>
-                                            </datalist>
-                                        </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left:50px;">
+                                        <input style="width: 125%;border-color: transparent;color:blue;margin-bottom:-0.5rem;font-size:14px;font-weight:bold" list="articoli" id="articolo_<?php echo $r->Id_DORig?>" onblur="cambiaarticolo(<?php echo $r->Id_DORig?>)" placeholder="<?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?>">
+                                        <datalist id="articoli">
+                                            <?php foreach($articolo as $a){?>
+                                            <option value="<?php echo $a->Cd_AR?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione ?></option>
+                                            <?php } ?>
+                                        </datalist>
+                                    </td>
                                     <?php } ?>
                                     <?php if($r->TipoPC == 'P'){?>
 
@@ -497,7 +497,7 @@
                                         <form  method="post" onsubmit="return confirm('Vuoi Eliminare Questa Riga ?')">
                                             <?php if($r->TipoPC != 'P'){?>
                                             <input type="hidden" id="codice" value="<?php echo $r->Cd_AR ?>">
-                                            <!--
+                                        <!--
                                                 <button style="width: 44px;background-color: #17A2B8;border: #17A2B8;height: 26px;" type="button" name="modifica_riga" value="<?php echo $r->Cd_AR;?>" class="btn btn-danger btn-sm" onclick="$('#modal_modifica_<?php echo $r->Id_DORig ?>').modal('show');"><i class="bi bi-pencil"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 18" style="margin-bottom: 10px;margin-right:20px">
                                                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                     </svg></i></button>
@@ -517,137 +517,137 @@
                         </table>
                     </div>
                 </div>
-                <?php } ?>
-<!-- page main ends -->
+            <?php } ?>
+            <!-- page main ends -->
             </div>
         </div>
     </div>
-<div class="modal" id="modal_cerca_articolo" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Carica Articolo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload()">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
+    <div class="modal" id="modal_cerca_articolo" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Carica Articolo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload()">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
 
-                <div class="modal-body">
+                    <div class="modal-body">
 
-                    <label>Cerca Articolo</label>
-                    <input class="form-control" type="text" id="cerca_articolo" value=""  placeholder="Inserisci barcode,codice o nome dell'articolo" autocomplete="off" autofocus>
-                </div>
+                        <label>Cerca Articolo</label>
+                        <input class="form-control" type="text" id="cerca_articolo" value=""  placeholder="Inserisci barcode,codice o nome dell'articolo" autocomplete="off" autofocus>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Chiudi</button>
-                    <button type="button" class="btn btn-primary" onclick="cerca_articolo_smart();check();">Cerca Articolo</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Chiudi</button>
+                        <button type="button" class="btn btn-primary" onclick="cerca_articolo_smart();check();">Cerca Articolo</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
 
-<div class="modal" id="modal_lista_articoli" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Carica Articolo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+    <div class="modal" id="modal_lista_articoli" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Carica Articolo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" id="ajax_lista_articoli"></div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                        <button type="button" class="btn btn-primary" onclick="cerca_articolo_smart();">Carica Articolo</button>
+                    </div>
                 </div>
-
-                <div class="modal-body" id="ajax_lista_articoli"></div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                    <button type="button" class="btn btn-primary" onclick="cerca_articolo_smart();">Carica Articolo</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<div class="modal" id="modal_carico" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Carica Articolo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+    <div class="modal" id="modal_carico" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Carica Articolo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="ajax_modal_carico"></div>
+                        <input type="hidden" name="Cd_AR" id="modal_Cd_AR">
+                        <label>Colli</label>
+                        <input class="form-control" type="number" id="modal_colli" value="1" required placeholder="Inserisci una Quantità" autocomplete="off">
+                        <input class="form-control" type="hidden" id="modal_prezzo" value="0" required placeholder="Inserisci un Prezzo" autocomplete="off">
+                        <label>Magazzino</label>
+                        <select class="form-control" type="number" id="modal_magazzino"  autocomplete="off" >
+                            <?php foreach($magazzino_prova as $mp){?>
+                            <option><?php echo $mp->Cd_MG.' - '.$mp->Descrizione;?></option>
+                            <?php }?>
+                        </select>
+                        <label>Lotto</label>
+                        <select class="form-control" type="number" id="modal_lotto" value="" required placeholder="Inserisci un Lotto" autocomplete="off">
+
+                        </select>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()"> Chiudi</button>
+                        <button type="button" class="btn btn-primary" onclick="scarica_articolo();">Carica Articolo</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div id="ajax_modal_carico"></div>
-                    <input type="hidden" name="Cd_AR" id="modal_Cd_AR">
-                    <label>Colli</label>
-                    <input class="form-control" type="number" id="modal_colli" value="1" required placeholder="Inserisci una Quantità" autocomplete="off">
-                    <input class="form-control" type="hidden" id="modal_prezzo" value="0" required placeholder="Inserisci un Prezzo" autocomplete="off">
-                    <label>Magazzino</label>
-                    <select class="form-control" type="number" id="modal_magazzino"  autocomplete="off" >
-                        <?php foreach($magazzino_prova as $mp){?>
-                        <option><?php echo $mp->Cd_MG.' - '.$mp->Descrizione;?></option>
-                        <?php }?>
-                    </select>
-                    <label>Lotto</label>
-                    <select class="form-control" type="number" id="modal_lotto" value="" required placeholder="Inserisci un Lotto" autocomplete="off">
-
-                    </select>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()"> Chiudi</button>
-                    <button type="button" class="btn btn-primary" onclick="scarica_articolo();">Carica Articolo</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
 
-<div class="modal" id="modal_inserimento" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Articolo Mancante</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+    <div class="modal" id="modal_inserimento" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Articolo Mancante</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input class="form-control" type="text" id="modal_inserimento_barcode" value="" autocomplete="off">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Chiudi</button>
+                        <button type="button" class="btn btn-primary" onclick="crea_articolo();">Crea Articolo</button>
+                    </div>
                 </div>
-
-                <div class="modal-body">
-                    <input class="form-control" type="text" id="modal_inserimento_barcode" value="" autocomplete="off">
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Chiudi</button>
-                    <button type="button" class="btn btn-primary" onclick="crea_articolo();">Crea Articolo</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<?php foreach($documento->righe as $r ) { ?>
-<div class="modal" id="modal_modifica_<?php  echo $r->Id_DORig ?>" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modifica Articolo <?php echo $r->Cd_AR ?></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="ajax_modal_modifica"></div>
-<?php /*
+    <?php foreach($documento->righe as $r ) { ?>
+    <div class="modal" id="modal_modifica_<?php  echo $r->Id_DORig ?>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifica Articolo <?php echo $r->Cd_AR ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="ajax_modal_modifica"></div>
+                        <?php /*
                     <label>Colli</label>
                     <input class="form-control" type="number" name="Qta" value="<?php echo floatval($r->xcolli) ?>" required placeholder="Inserisci una Quantità" autocomplete="off">
 
@@ -656,75 +656,75 @@
 
                     <input class="form-control" type="hidden" name="PrezzoUnitarioV" value="<?php echo intval($r->PrezzoUnitarioV) ?>" required placeholder="Inserisci un Prezzo" autocomplete="off">
 */?>
-                    <label>Magazzino</label>
-                    <select class="form-control" type="number" name="magazzino"  required  autocomplete="off">
-                        <?php  foreach($magazzino_prova as $mp){?>
-                        <option><?php echo $mp->Cd_MG.' - '.$mp->Descrizione;?></option>
-                        <?php } ?>
-                    </select>
+                        <label>Magazzino</label>
+                        <select class="form-control" type="number" name="magazzino"  required  autocomplete="off">
+                            <?php  foreach($magazzino_prova as $mp){?>
+                            <option><?php echo $mp->Cd_MG.' - '.$mp->Descrizione;?></option>
+                            <?php } ?>
+                        </select>
 
-                    <label>Lotto</label>
-                    <select class="form-control" type="number" name="Cd_ARLotto"  required  autocomplete="off">
-                        <option>Nessun Lotto</option>
-                        <?php if($r->Cd_ARLotto != null ) {?>
-                        <option selected><?php echo $r->Cd_ARLotto ?></option>
-                        <?php } ?>
-                        <?php foreach($r->lotti as $l) { ?>
-                        <option><?php echo $l->Cd_ARLotto ?></option>
-                        <?php } ?>
-                    </select>
+                        <label>Lotto</label>
+                        <select class="form-control" type="number" name="Cd_ARLotto"  required  autocomplete="off">
+                            <option>Nessun Lotto</option>
+                            <?php if($r->Cd_ARLotto != null ) {?>
+                            <option selected><?php echo $r->Cd_ARLotto ?></option>
+                            <?php } ?>
+                            <?php foreach($r->lotti as $l) { ?>
+                            <option><?php echo $l->Cd_ARLotto ?></option>
+                            <?php } ?>
+                        </select>
 
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="Id_DORig" value="<?php echo $r->Id_DORig ?>">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Chiudi</button>
+                        <button type="submit" name="modifica_riga" value="Salva" class="btn btn-primary">Salva</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="Id_DORig" value="<?php echo $r->Id_DORig ?>">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Chiudi</button>
-                    <button type="submit" name="modifica_riga" value="Salva" class="btn btn-primary">Salva</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-<?php } ?>
+    <?php } ?>
 
-<div class="modal" id="modal_esplodi" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="post">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Salva Documento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
+    <div class="modal" id="modal_esplodi" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Salva Documento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
 
-                <div class="modal-body">
-                    <label>Sei sicuro di voler salvare il Documento?</label>
-                </div>
+                    <div class="modal-body">
+                        <label>Sei sicuro di voler salvare il Documento?</label>
+                    </div>
 
-                <div class="modal-footer">
-                    <input type="hidden" name="Id_DoTes" value="<?php echo $documento->Id_DoTes;?>">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">No</button>
-                    <button type="button"  onclick="top.location.href = '/'" class="btn btn-primary">Si</button>
+                    <div class="modal-footer">
+                        <input type="hidden" name="Id_DoTes" value="<?php echo $documento->Id_DoTes;?>">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">No</button>
+                        <button type="button"  onclick="top.location.href = '/'" class="btn btn-primary">Si</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/popper.min.js"></script>
-<script src="/vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script>
-<script src="/vendor/cookie/jquery.cookie.js"></script>
-<script src="/vendor/sparklines/jquery.sparkline.min.js"></script>
-<script src="/vendor/circle-progress/circle-progress.min.js"></script>
-<script src="/vendor/swiper/js/swiper.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="//webrtc.github.io/adapter/adapter-latest.js" type="text/javascript"></script>
-<script src="/dist/quagga.js" type="text/javascript"></script>
-<script src="/js/live_w_locator.js" type="text/javascript"></script>
-<script src="/js/jquery.scannerdetection.js" type="text/javascript"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+    <script src="/vendor/cookie/jquery.cookie.js"></script>
+    <script src="/vendor/sparklines/jquery.sparkline.min.js"></script>
+    <script src="/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/vendor/swiper/js/swiper.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="//webrtc.github.io/adapter/adapter-latest.js" type="text/javascript"></script>
+    <script src="/dist/quagga.js" type="text/javascript"></script>
+    <script src="/js/live_w_locator.js" type="text/javascript"></script>
+    <script src="/js/jquery.scannerdetection.js" type="text/javascript"></script>
 
 </body>
 </html>
@@ -736,6 +736,8 @@
         pos = codice.search(' - ');
         codice = codice.substr(0,pos);
         lotto  = document.getElementById('cerca_lotto1').value;
+        pos = lotto.search('/');
+        if(pos !=(-1)){ lotto = lotto.substr(0,pos)+'slash'+lotto.substr(pos+1)}
         quantita = document.getElementById('cerca_quantita1').value;
         scarica_articolo();
     }
@@ -774,7 +776,8 @@
         quantita  =      $('#cerca_quantita1').val();
         magazzino =     '00001';
         lotto     =      $('#cerca_lotto1').val();
-
+        pos = lotto.search('/');
+        if(pos !=(-1)){ lotto = lotto.substr(0,pos)+'slash'+lotto.substr(pos+1)}
 
 
 

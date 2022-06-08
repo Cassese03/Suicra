@@ -349,41 +349,41 @@
                                                 <p <?php if($r->QtaEvadibile==0)echo 'style="color: red"'?>> Quantita' : <?php echo floatval($r->Qta) ?> </p>
                                             </div>
                                         </div>
-                                            <form  method="post" onsubmit="return confirm('Vuoi Eliminare Questa Riga ?')">
+                                        <form  method="post" onsubmit="return confirm('Vuoi Eliminare Questa Riga ?')">
 
 
 
-                                                <div class="row" style="text-align: center;padding-left:25px;padding-right:25px;">
+                                            <div class="row" style="text-align: center;padding-left:25px;padding-right:25px;">
 
-                                                    <input type="hidden" id="codice" value="<?php echo $r->Cd_AR ?>">
-                                                    <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
-                                                        <button  style="width:100%;" type="reset"  name="segnalazione" value="" class="btn btn-warning btn-sm" onclick="$('#modal_segnalazione<?php echo $r->Id_DORig?>').modal('show');" ><i class="fa fa-exclamation-triangle" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
-                                                                    <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
-                                                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
-                                                                </svg></i></button>
-                                                    </div>
-
-                                                    <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
-                                                        <button  style="width:100%;" type="reset"  name="modifica_riga" value="<?php echo $r->Cd_AR;?>" class="btn btn-primary btn-sm" onclick="$('#modal_modifica_<?php echo $r->Id_DORig ?>').modal('show');" ><i class="bi bi-pencil"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                                                </svg></i></button>
-                                                    </div>
-
-
-                                                    <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
-                                                        <button  style="width:100%;" type="submit" name="elimina_riga" value="Elimina" class="btn btn-danger btn-sm" ><i class="bi bi-trash-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                                                </svg></i></button>
-                                                    </div>
-
-
-                                                    <input type="hidden"  name="Id_DORig" value="<?php echo $r->Id_DORig ?>">
-
-
+                                                <input type="hidden" id="codice" value="<?php echo $r->Cd_AR ?>">
+                                                <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
+                                                    <button  style="width:100%;" type="reset"  name="segnalazione" value="" class="btn btn-warning btn-sm" onclick="$('#modal_segnalazione<?php echo $r->Id_DORig?>').modal('show');" ><i class="fa fa-exclamation-triangle" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                                                                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                                                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                                            </svg></i></button>
                                                 </div>
 
-                                            </form>
-                                        </div>
+                                                <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
+                                                    <button  style="width:100%;" type="reset"  name="modifica_riga" value="<?php echo $r->Cd_AR;?>" class="btn btn-primary btn-sm" onclick="$('#modal_modifica_<?php echo $r->Id_DORig ?>').modal('show');" ><i class="bi bi-pencil"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                                            </svg></i></button>
+                                                </div>
+
+
+                                                <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-sm-4" style="padding-right: 5px;padding-left: 5px;">
+                                                    <button  style="width:100%;" type="submit" name="elimina_riga" value="Elimina" class="btn btn-danger btn-sm" ><i class="bi bi-trash-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                            </svg></i></button>
+                                                </div>
+
+
+                                                <input type="hidden"  name="Id_DORig" value="<?php echo $r->Id_DORig ?>">
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
 
                                 </a>
                             </li>
@@ -766,20 +766,20 @@
         </div>
     </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/popper.min.js"></script>
-<script src="/vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script>
-<script src="/vendor/cookie/jquery.cookie.js"></script>
-<script src="/vendor/sparklines/jquery.sparkline.min.js"></script>
-<script src="/vendor/circle-progress/circle-progress.min.js"></script>
-<script src="/vendor/swiper/js/swiper.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="//webrtc.github.io/adapter/adapter-latest.js" type="text/javascript"></script>
-<script src="/dist/quagga.js" type="text/javascript"></script>
-<script src="/js/live_w_locator.js" type="text/javascript"></script>
-<script src="/js/jquery.scannerdetection.js" type="text/javascript"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+    <script src="/vendor/cookie/jquery.cookie.js"></script>
+    <script src="/vendor/sparklines/jquery.sparkline.min.js"></script>
+    <script src="/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/vendor/swiper/js/swiper.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="//webrtc.github.io/adapter/adapter-latest.js" type="text/javascript"></script>
+    <script src="/dist/quagga.js" type="text/javascript"></script>
+    <script src="/js/live_w_locator.js" type="text/javascript"></script>
+    <script src="/js/jquery.scannerdetection.js" type="text/javascript"></script>
 
 </body>
 </html>
@@ -789,12 +789,12 @@
     cd_cf =  '<?php echo $fornitore->Cd_CF ?>';
 
 
-   /* function cambioMagazzino(){
-        magazzino = $('#modal_magazzino_A').val()
-        $('#modal_ubicazione').children('option').hide();
-        $('#modal_ubicazione').children("option[magazzino^=" + magazzino.substring(0,5) + "]").show();
+    /* function cambioMagazzino(){
+         magazzino = $('#modal_magazzino_A').val()
+         $('#modal_ubicazione').children('option').hide();
+         $('#modal_ubicazione').children("option[magazzino^=" + magazzino.substring(0,5) + "]").show();
 
-    }*/
+     }*/
 
 
     function segnalazione(){
@@ -826,13 +826,15 @@
 
         codice      =      $('#modal_Cd_AR').val();
         quantita    =      $('#modal_quantita').val();
-       /* prezzo    =      $('#modal_prezzo').val();*/
+        /* prezzo    =      $('#modal_prezzo').val();*/
         magazzino_A =      $('#modal_magazzino_A').val();
         magazzino_P =      $('#modal_magazzino_P').val();
         ubicazione_A=      $('#modal_ubicazione_A').val();
         if(ubicazione_A == '' || ubicazione_A == null)
             ubicazione_A ='ND';
         lotto       =      $('#modal_lotto').val();
+        pos = lotto.search('/');
+        if(pos !=(-1)){ lotto = lotto.substr(0,pos)+'slash'+lotto.substr(pos+1)}
 
 
         if (quantita != '') {
@@ -853,7 +855,7 @@
 
         codice    =      document.getElementById('codice').value;
         quantita  =      $('#modal_quantita_m').val();
-       /* prezzo    =      $('#modal_prezzo_m').val();*/
+        /* prezzo    =      $('#modal_prezzo_m').val();*/
         magazzino =      $('#modal_magazzino_m').val();
         lotto     =      $('#modal_lotto_m').val();
 
@@ -942,7 +944,7 @@
     function checkDoc(){
         <?php foreach($documento->righe as $r){ ?>
 
-        articolo = $('#modal_Cd_AR_c_<?php echo $r->Id_DORig?>').val();
+            articolo = $('#modal_Cd_AR_c_<?php echo $r->Id_DORig?>').val();
         quantita = $('#modal_Qta_c_<?php echo $r->Id_DORig?>').val();
         lotto    = $('#modal_Cd_ARLotto_c_<?php echo $r->Id_DORig?>').val();
         id_dorig = '00000'

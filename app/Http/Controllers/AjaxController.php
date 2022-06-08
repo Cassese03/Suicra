@@ -960,6 +960,7 @@ class AjaxController extends Controller{
 
     public function aggiungi_articolo_ordine($id_ordine,$codice,$quantita,$magazzino_A,$ubicazione_A,$lotto,$magazzino_P,$ubicazione_P){
         $i = 0;
+        $lotto = str_replace("slash","/",$lotto);
         $magazzini = DB::SELECT('SELECT * FROM MGUbicazione WHERE Cd_MG=\''.$magazzino_A.'\'');
         foreach($magazzini as $m){
             if($m->Cd_MGUbicazione == $ubicazione_A)
