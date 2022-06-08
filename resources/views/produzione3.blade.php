@@ -432,19 +432,19 @@
                             <thead>
                             <tr>
 
-                                <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
+                                <th class="col-1 col-xs-1 col-sm-1 col-md-1" style="text-align: center">
                                     <label style="color:black;">Articolo</label>
                                 </th>
 
-                                <th class="col-xs-3 col-sm-3 col-md-3" style="text-align: center">
+                                <th class="col-3 col-xs-3 col-sm-3 col-md-3" style="text-align: center">
                                     <label style="color:black;">Quantita'</label>
                                 </th>
 
-                                <th class="col-xs-2 col-sm-2 col-md-2" style="text-align: center">
+                                <th class="col-2 col-xs-2 col-sm-2 col-md-2" style="text-align: center">
                                     <label style="color:black;">Lotto</label>
                                 </th>
 
-                                <th class="col-xs-1 col-sm-1 col-md-1" style="text-align: center">
+                                <th class="col-1 col-xs-1 col-sm-1 col-md-1" style="text-align: center">
                                     <label style="color:black;">Azioni</label>
                                 </th>
 
@@ -458,12 +458,12 @@
                             <tr style="border:1px solid black;border-collapse: collapse;border-radius: 10px;">
                                 <div class="row">
                                     <?php if($r->TipoPC == 'P'){?>
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left: -5px;">
-                                        <label style="color:black;margin-bottom:-0.5rem;font-size:14px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
+                                    <td class="col-2 col-lg-2 col-xs-2 col-sm-2 col-md-2" <?php /*style="height: 35px;text-align: left;padding-left: -5px;" */?> >
+                                        <label style="color:black;margin-bottom:-0.5rem;font-size:13px;font-weight:bold"><?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?></label>
                                     </td>
                                     <?php }else{?>
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: left;padding-left:50px;">
-                                        <input style="width: 125%;border-color: transparent;color:blue;margin-bottom:-0.5rem;font-size:14px;font-weight:bold" list="articoli" id="articolo_<?php echo $r->Id_DORig?>" onblur="cambiaarticolo(<?php echo $r->Id_DORig?>)" placeholder="<?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?>">
+                                    <td class="col-2 col-lg-2 col-xs-2 col-sm-2 col-md-2" <?php /* style="height: 35px;text-align: left;padding-left:50px;" */?>>
+                                        <input style="border-color: transparent;color:blue;margin-bottom:-0.5rem;font-size:13px;font-weight:bold" list="articoli" id="articolo_<?php echo $r->Id_DORig?>" onblur="cambiaarticolo(<?php echo $r->Id_DORig?>)" placeholder="<?php echo substr($r->Cd_AR.' - '.$r->Descrizione,'0','52')?>">
                                         <datalist id="articoli">
                                             <?php foreach($articolo as $a){?>
                                             <option value="<?php echo $a->Cd_AR?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione ?></option>
@@ -473,27 +473,35 @@
                                     <?php } ?>
                                     <?php if($r->TipoPC == 'P'){?>
 
-                                    <td class="col-xs-3 col-sm-3 col-md-3" style="height: 35px;text-align: right">
-                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;width:50%"><?php echo number_format($r->Qta, 3, '.', '');?></label>
+                                    <td class="col-2 col-lg-2 col-xs-2 col-sm-2 col-md-2"  <?php /*style="height: 35px;text-align: right"*/?>>
+                                        <div style="text-align: center">
+                                            <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;width:50%"><?php echo number_format($r->Qta, 3, '.', '');?></label>
+                                        </div>
                                     </td>
 
-                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: center">
-                                        <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;width:50%"><?php echo $r->Cd_ARLotto?></label>
+                                    <td class="col-2 col-lg-2 col-xs-2 col-sm-2 col-md-2"  <?php /* style="height: 35px;text-align: center" */?>>
+                                        <div style="text-align: center">
+                                            <label style="color:black;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;width:50%"><?php echo $r->Cd_ARLotto?></label>
+                                        </div>
                                     </td>
 
                                     <?php }else{ ?>
 
-                                    <td class="col-xs-3 col-sm-3 col-md-3" style="height: 35px;text-align: right">
-                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: right;width:150%" id="qta_<?php echo $r->Id_DORig ?>" onblur="cambiaqta(<?php echo $r->Id_DORig?>)" value="<?php echo number_format($r->Qta, 3, '.', '');?>">
+                                    <td class="col-2 col-lg-2 col-xs-2 col-sm-2 col-md-2" <?php /* style="height: 35px;text-align: right"*/?>>
+                                        <div style="text-align: center">
+                                            <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: right;" id="qta_<?php echo $r->Id_DORig ?>" onblur="cambiaqta(<?php echo $r->Id_DORig?>)" value="<?php echo number_format($r->Qta, 3, '.', '');?>">
+                                        </div>
                                     </td>
 
-                                    <td class="col-xs-2 col-sm-2 col-md-2" style="height: 35px;text-align: right">
-                                        <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: center;width:150%" id="lotto_<?php echo $r->Id_DORig?>" onblur="cambialotto(<?php echo $r->Id_DORig?>)" value="<?php echo $r->Cd_ARLotto?>">
+                                    <td class="col-2 col-lg-2 col-xs-2 col-sm-2 col-md-2"  <?php /*style="height: 35px;text-align: right"*/?>>
+                                        <div style="text-align: center">
+                                            <input style="border-color: transparent;color:blue;font-size:14px;margin-bottom:-0.5rem;font-weight: bold;text-align: center;" id="lotto_<?php echo $r->Id_DORig?>" onblur="cambialotto(<?php echo $r->Id_DORig?>)" value="<?php echo $r->Cd_ARLotto?>">
+                                        </div>
                                     </td>
 
                                     <?php } ?>
 
-                                    <td class="col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: center;margin-bottom: -0.5rem;">
+                                    <td class="col-1 col-lg-1 col-xs-1 col-sm-1 col-md-1" style="height: 35px;text-align: center;margin-bottom: -0.5rem;">
                                         <form  method="post" onsubmit="return confirm('Vuoi Eliminare Questa Riga ?')">
                                             <?php if($r->TipoPC != 'P'){?>
                                             <input type="hidden" id="codice" value="<?php echo $r->Cd_AR ?>">
