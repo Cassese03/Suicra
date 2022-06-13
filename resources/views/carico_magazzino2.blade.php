@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" class="md">
-<?php $dest='C2';?>
+<?php $dest='BC';?>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
