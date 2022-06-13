@@ -27,70 +27,70 @@ use function PHPUnit\Framework\returnArgument;
  */
 
 class AjaxController extends Controller{
+    /*
+        public function invio(){
+
+            $path = 'C:/Users/Work4/Desktop/Screenshot_4.png';
+            $base64 = base64_encode(file_get_contents($path));
+
+            $oggetto = array('immagine' => $base64);
+
+            $newJsonString = json_encode($oggetto);
+
+            //file_put_contents(base_path('provajson'), stripslashes($newJsonString));
+
+            //  $newJsonString  = base64_encode($newJsonString);
+
+            // API URL
+
+            $url = 'https://arcalogisticsuicra.local/ajax/provajson';
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $newJsonString);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_PORT, 443);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+            $result = curl_exec($ch);
+            echo $result;
+            curl_close($ch);
+
+        }
+
+        public function provajson(Request $request){
+
+
+            $dati = $request->all();
+            print_r($dati);
+            $img = $dati['immagine'];
+            $img = str_replace('data:image/png;base64,', '', $img);
+            $img = str_replace(' ', '+', $img);
+            $data = base64_decode($img);
+            $rand = rand(1,100);
+            $fp = fopen ( "C:/Users/Work4/Desktop/" .$rand.".png","w+");
+            fwrite($fp,$data) ;
+            /* echo 'Token :'.$token.'<br>';
+             echo 'Messaggio :'.$dati['messaggio'];
+             echo 'Contatto :'.$dati['Contatto'];
+             $json = 'Token :'.$token.'<br>Messaggio :'.$dati['messaggio'].'Contatto :'.$dati['Contatto'];*/
+    /*echo 'C:/Users/Work4/Desktop/'.$rand.'.png';
+     echo '<img src="public/image/61.png" alt="DDT" style="width:100%;z-index:1">';
+     exit();
+
+     $jsonString  = base64_decode($jsonString);
+
+
+     //$jsonString2 = file_get_contents(base_path('provajson'));
 /*
-    public function invio(){
+     $data = json_decode($jsonString, true);
 
-        $path = 'C:/Users/Work4/Desktop/Screenshot_4.png';
-        $base64 = base64_encode(file_get_contents($path));
+     echo $data['immagine'];
 
-        $oggetto = array('immagine' => $base64);
-
-        $newJsonString = json_encode($oggetto);
-
-        //file_put_contents(base_path('provajson'), stripslashes($newJsonString));
-
-        //  $newJsonString  = base64_encode($newJsonString);
-
-        // API URL
-
-        $url = 'https://arcalogisticsuicra.local/ajax/provajson';
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $newJsonString);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_PORT, 443);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        $result = curl_exec($ch);
-        echo $result;
-        curl_close($ch);
-
-    }
-
-    public function provajson(Request $request){
-
-
-        $dati = $request->all();
-        print_r($dati);
-        $img = $dati['immagine'];
-        $img = str_replace('data:image/png;base64,', '', $img);
-        $img = str_replace(' ', '+', $img);
-        $data = base64_decode($img);
-        $rand = rand(1,100);
-        $fp = fopen ( "C:/Users/Work4/Desktop/" .$rand.".png","w+");
-        fwrite($fp,$data) ;
-        /* echo 'Token :'.$token.'<br>';
-         echo 'Messaggio :'.$dati['messaggio'];
-         echo 'Contatto :'.$dati['Contatto'];
-         $json = 'Token :'.$token.'<br>Messaggio :'.$dati['messaggio'].'Contatto :'.$dati['Contatto'];*/
-       /*echo 'C:/Users/Work4/Desktop/'.$rand.'.png';
-        echo '<img src="public/image/61.png" alt="DDT" style="width:100%;z-index:1">';
-        exit();
-
-        $jsonString  = base64_decode($jsonString);
-
-
-        //$jsonString2 = file_get_contents(base_path('provajson'));
-/*
-        $data = json_decode($jsonString, true);
-
-        echo $data['immagine'];
-
-        file_put_contents($data, file_get_contents($jsonString));
-    }*/
+     file_put_contents($data, file_get_contents($jsonString));
+ }*/
     public function cambia_qta($dorig,$qta)
     {
 
@@ -98,7 +98,7 @@ class AjaxController extends Controller{
     }
     public function cambia_articolo($dorig,$articolo)
     {
-
+        $articolo = str_replace('slash','/',$articolo);
         $controllo = DB::SELECT('SELECT * FROM AR WHERE Cd_AR = \''.$articolo.'\'');
         if(sizeof($controllo) > 0 ){
             $descrizione = $controllo[0]->Descrizione;
@@ -109,6 +109,8 @@ class AjaxController extends Controller{
 
     public function cambia_lotto($dorig,$lotto)
     {
+        $lotto= str_replace('slash','/',$lotto);
+
         $riga = DB::SELECT('SELECT * FROM DORIG WHERE Id_DORig = \''.$dorig.'\'')[0];
         $controllo_lotto = DB::SELECT('SELECT * FROM ARLotto where Cd_AR = \''.$riga->Cd_AR.'\' and Cd_ARLotto = \''.$lotto.'\'');
         if(sizeof($controllo_lotto) != '0')
@@ -191,7 +193,7 @@ class AjaxController extends Controller{
     }
     public function visualizza_lotti($articolo){
         $data = strtotime('today');
-        $data = date('d-m-Y',$data);
+        $data = date('Y-m-d',$data);
         $lotto = DB::SELECT('SELECT * FROM ARLotto where Cd_AR =\''.$articolo.'\' and  Cd_ARLotto in (select Cd_ARLotto from MGMov group by Cd_ARLotto having SUM(QuantitaSign) > 0) and DataScadenza >= \''.$data.'\'  ORDER BY Cd_ARLotto DESC ');
         /*
             $lotto2 = DB::SELECT('SELECT * FROM ARLotto where Cd_AR =\''.$articolo.'\' and  Cd_ARLotto in (select Cd_ARLotto from MGMov group by Cd_ARLotto having SUM(QuantitaSign) > 0) and DataScadenza >= \''.$data.'\'ORDER BY Cd_ARLotto DESC  ');
@@ -205,7 +207,7 @@ class AjaxController extends Controller{
                 <a class="media" onclick="">
                     <div class="media-body" onclick="storialotto('<?php echo $l->Cd_AR ?>','<?php echo $l->Cd_ARLotto?>')">
                         <h5><?php echo $l->Cd_ARLotto;if($l->Cd_CF != '')echo '  (Fornitore: '.$l->Cd_CF.')'?></h5>
-                        <p>Codice: <?php echo $l->Cd_AR?> - Scade il : <?php echo date("d-m-Y",strtotime($l->DataScadenza)) ?></p>
+                        <p>Codice: <?php echo $l->Cd_AR?> - Scade il : <?php echo date("Y-m-d",strtotime($l->DataScadenza)) ?></p>
                     </div>
                 </a>
             </li>
@@ -216,7 +218,7 @@ class AjaxController extends Controller{
 
         $data = strtotime('today');
 
-        $data = date('d-m-Y',$data);
+        $data = date('Y-m-d',$data);
 
         $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_ARLotto FROM MGMov WHERE Cd_AR = \''.$articolo.'\'  GROUP BY Cd_AR,Cd_ARLotto HAVING SUM(QuantitaSign) > 0  ');
 
@@ -237,7 +239,7 @@ class AjaxController extends Controller{
 
         $data = strtotime('today');
 
-        $data = date('d-m-Y',$data);
+        $data = date('Y-m-d',$data);
 
         $giacenza = DB::SELECT('SELECT SUM(QuantitaSign) as Giacenza,Cd_AR,Cd_MG FROM MGMov WHERE Cd_AR = \''.$articolo.'\' GROUP BY Cd_AR,Cd_MG ORDER BY Cd_MG ASC');
 
@@ -642,7 +644,7 @@ class AjaxController extends Controller{
 
         $magazzini = DB::select('SELECT * from MG WHERE Cd_MG !=\''.$magazzino_selezionato.'\' ');
 
-        $date = date('d-m-Y',strtotime('today')) ;
+        $date = date('Y-m-d',strtotime('today')) ;
 
         IF($Cd_ARLotto!='0')
             $lotto = DB::select('SELECT * FROM ARLotto WHERE Cd_AR = \'' . $codice . '\' and Cd_ARLotto !=\''.$Cd_ARLotto.'\' and Cd_ARLotto in (select Cd_ARLotto from MGMov group by Cd_ARLotto having SUM(QuantitaSign) >= 0) AND DataScadenza > \''.$date.'\' ORDER BY TimeIns DESC  ');
@@ -821,8 +823,8 @@ class AjaxController extends Controller{
         if(str_replace(' ','',$documento)=='CPI' ||str_replace(' ','',$documento)=='PRV'||str_replace(' ','',$documento)=='OC'||str_replace(' ','',$documento)=='B2'||str_replace(' ','',$documento)=='FA') {
             $controllo = DB::SELECT('SELECT * FROM ARLotto WHERE Cd_ARLotto = \'' . $lotto . '\' and Cd_AR = \'' . $cd_ar . '\' ');
             if (sizeof($controllo) == '0') {
-                $dayS = date('d-m-Y', strtotime("2022-01-00 +" . substr($lotto, '0', '3') . "day"));
-                $scadenza = date('d-m-Y', strtotime("+28 day" . $dayS));
+                $dayS = date('Y-m-d', strtotime("2022-01-00 +" . substr($lotto, '0', '3') . "day"));
+                $scadenza = date('Y-m-d', strtotime("+28 day" . $dayS));
                 DB::table('ARLotto')->insertGetId(['Cd_AR' => $cd_ar, 'Cd_ARLotto' => $lotto, 'Descrizione' => 'Lotto ' . $lotto . '', 'DataScadenza' => $scadenza, 'Cd_CF' => 'F000123']);
             }
         }
@@ -849,7 +851,7 @@ class AjaxController extends Controller{
             $cd_cf ='F000274';
         $xqtaconf = DB::SELECT('SELECT * FROM AR WHERE CD_AR = \''.$cd_ar.'\'')[0]->xqtaconf;
         if($Id_DoTes == '') {
-            $date = date('d-m-Y H:i:s',strtotime('now')) ;
+            $date = date('Y-m-d H:i:s',strtotime('now')) ;
             $Id_DoTes = DB::table('DOTes')->insertGetId(['Cd_CF' => $cd_cf, 'Cd_Do' => $documento, 'TrasportoDataOra'=> $date ,'Cd_DoAspBene' =>'CA','Cd_DoPorto' =>'01', 'Cd_DoSped'=>'02', 'Cd_DoTrasporto'=>'01']);
             if (str_replace(' ', '', $documento) == 'FA')
                 $Id_DoTes = DB::SELECT('SELECT * FROM DOTES WHERE Cd_Do = \'FA\' ORDER BY Id_DoTes DESC')[0]->Id_DoTes;
@@ -1101,7 +1103,7 @@ class AjaxController extends Controller{
         $confezione = substr($q,'5', '3');
         $data = substr($q,'14', '6');
         $data = strtotime($data);
-        $data = date('d-m-Y',$data);
+        $data = date('Y-m-d',$data);
 
         $articoli = DB::select('SELECT * FROM DoRig ' . $where . ' and Id_DoTes in (\''.$id_dotes.'\') Order By Cd_AR DESC');
         if(sizeof($articoli) > 0){
@@ -1275,7 +1277,7 @@ class AjaxController extends Controller{
             $quantita = 0;
             $disponibilita = DB::select('SELECT ISNULL(sum(QuantitaSign),0) as disponibilita from MGMOV where Cd_MGEsercizio = '.date('Y').' and Cd_AR = \'' . $articolo->Cd_AR . '\'');
             if (sizeof($disponibilita) > 0) {
-                $data =  date('d-m-Y',strtotime('today')) ;
+                $data =  date('Y-m-d',strtotime('today')) ;
                 $prova = DB::SELECT('SELECT ISNULL(sum(QuantitaSign),0) as disponibilita,Cd_ARLotto,Cd_MG from MGMOV where Cd_MGEsercizio = '.date('Y').' and Cd_AR = \'' . $articolo->Cd_AR . '\' and Cd_ARLotto IS NOT NULL group by Cd_ARLotto, Cd_MG HAVING SUM(QuantitaSign)!= 0  ');
             }
 

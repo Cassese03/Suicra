@@ -824,6 +824,8 @@
     function cambiaqta(dorig){
 
         qta = document.getElementById('qta_'+dorig).value;
+        pos = lotto.search('/');
+        if(pos !=(-1)){ qta = qta.substr(0,pos)+'slash'+qta.substr(pos+1)}
         if(qta != ''){
             $.ajax({
                 url: "<?php echo URL::asset('ajax/cambia_qta') ?>/"+dorig+"/"+qta,
@@ -837,6 +839,8 @@
     function cambialotto(dorig){
 
         lotto = document.getElementById('lotto_'+dorig).value;
+        pos = lotto.search('/');
+        if(pos !=(-1)){ lotto = lotto.substr(0,pos)+'slash'+lotto.substr(pos+1)}
 
         if(lotto != ''){
             $.ajax({
@@ -851,6 +855,8 @@
     function cambiaarticolo(dorig){
 
         articolo = document.getElementById('articolo_'+dorig).value;
+        pos = articolo.search('/');
+        if(pos !=(-1)){ articolo = articolo.substr(0,pos)+'slash'+articolo.substr(pos+1)}
 
         if(articolo != ''){
             $.ajax({

@@ -337,12 +337,13 @@ class HomeController extends Controller{
             */
 
         }
-        $date = date('d-m-Y',strtotime('today')) ;
+        $date = date('Y-m-d',strtotime('today'));
         $fornitori = DB::select('SELECT * from CF where Fornitore = 1 and Cd_CF = \'FPROD\'');
         $documenti = DB::select('SELECT * from DOTes where Cd_DO = \'CP\' and DataDoc = \''.$date.'\'');
         if(sizeof($documenti)<= 0 ){
             $insert_testata_ordine['Cd_CF'] = 'FPROD';
             $insert_testata_ordine['Cd_Do'] = 'CP';
+            $date = str_replace('-','',$date);
             $insert_testata_ordine['DataDoc'] = $date;
             $Id_DOTes  = DB::table('DOTes')->insertGetId($insert_testata_ordine);
             $documenti =  DB::select('SELECT * from DOTes where Id_DOTes = \''.$Id_DOTes.'\'');
@@ -364,12 +365,13 @@ class HomeController extends Controller{
             if(sizeof($Id_DB)!= 0){
                 $Id_DB = $Id_DB[0]->Id_DB;
             }
-            else
-                break;
+            else {
+                DB::update("Update DORIG set TipoPc= 'C' where Id_DORig = $r->Id_DORig");
+            }
             $esploso = DB::SELECT('SELECT * FROM DBMateriale WHERE Id_DB = \'' . $Id_DB . '\' ');
 
             $Riga = DB::SELECT('SELECT * FROM DoRig WHERE Id_DoRig = \'' . $Id_DoRig . '\' ')[0]->Riga;
-            $date = date('d-m-Y', strtotime($daat[0]->DataDoc));
+            $date = date('Y-m-d', strtotime($daat[0]->DataDoc));
 
             foreach ($esploso as $e) {
 
@@ -452,7 +454,7 @@ class HomeController extends Controller{
             $fornitore = $fornitori[0];
             $documento = $documenti[0];
             $id_dotes = $documento->Id_DoTes;
-            $data = date('d-m-Y',strtotime($documento->DataDoc)) ;
+            $data = date('Y-m-d',strtotime($documento->DataDoc)) ;
             $documento->righe = DB::select('SELECT * from DORig where Id_DoTes = \''.$id_dotes.'\' order by Riga,Id_DoRig asc');
             foreach ($documento->righe as $r)
             {
@@ -828,7 +830,7 @@ class HomeController extends Controller{
         $documenti = DB::select('SELECT * from DOTes where Id_DoTes in ('.$id_dotes.')');
         if(sizeof($fornitori) > 0){
             $fornitore = $fornitori[0];
-            $date = date('d-m-Y',strtotime('today')) ;
+            $date = date('Y-m-d',strtotime('today')) ;
             foreach($documenti as $documento)
                 $documento->righe = DB::select('SELECT * from DORig where Id_DoTes in ('.$id_dotes.')  ORDER BY QtaEvadibile DESC');
 
