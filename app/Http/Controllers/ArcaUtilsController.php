@@ -61,7 +61,7 @@ class ArcaUtilsController extends Controller{
             $cf = $cf[0];
             $articoli = DB::select
             ('
-                SELECT Cd_AR,Descrizione,Cd_ARMisura
+                SELECT *
                 from AR
                 where Cd_AR = \'' . $codice_articolo . '\';
              ');
@@ -102,7 +102,7 @@ class ArcaUtilsController extends Controller{
                 $insert_righe_ordine['QtaEvadibile'] = $quantita;
                 $insert_righe_ordine['QtaEvasa'] = $quantita;
                 $documento = DB::SELECT('SELECT * FROM DOTes WHERE Id_DOTes = \''.$id_ordine.'\' ')[0]->Cd_Do;
-                $insert_righe_ordine['Cd_Aliquota'] = $cf->Cd_Aliquota;
+                $insert_righe_ordine['Cd_Aliquota'] = $articolo->Cd_Aliquota_A;
                 if($insert_righe_ordine['Cd_Aliquota'] == '')
                     $insert_righe_ordine['Cd_Aliquota'] = '22';
                 $insert_righe_ordine['Cd_CGConto'] = DB::SELECT('SELECT * FROM IMPOSTAZIONE WHERE Id_Impostazione = \'7\'')[0]->Cd_CGConto_1;
