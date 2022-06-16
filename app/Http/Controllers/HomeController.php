@@ -525,7 +525,7 @@ class HomeController extends Controller{
             $numero_documento = DB::select('SELECT MAX(NumeroDocI)+1 as num from DOTes where Cd_MGEsercizio = \''.$ese.'\' and Cd_DO = \''.$cd_do.'\' ')[0]->num;
             if($numero_documento == null)
                 $numero_documento = '1';
-            switch ($cd_do){
+            /*switch ($cd_do){
                 case "K02":
                     $cond .=', \'O02\' ';
                     break;
@@ -552,7 +552,7 @@ class HomeController extends Controller{
                 case "PRV":
                     $cond .=', \'OC\' ';
                     break;
-            }
+            }*/
             $doc_evadi = DB::SELECT('SELECT * FROM DoTes where Cd_DO in (\'\''.$cond.') and RigheEvadibili >\'0\' AND  DATEDIFF(DAY,GETDATE(),TimeIns) > -7 and Cd_CF = \''.$fornitore->Cd_CF.'\' order by Id_DoTes desc ');
             return View::make('carico_magazzino03',compact('fornitore','documenti','cd_do','numero_documento','doc_evadi','id_fornitore'));
         }

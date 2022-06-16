@@ -125,7 +125,7 @@ switch($cd_do){
                     <label>Numero Documento</label>
                     <input class="form-control" type="number" placeholder="Inserisci Numero Documento" id="NumeroDoc" value="<?php echo $numero_documento ?>" readonly>
                     <label>Data Documento</label>
-                    <input class="form-control" type="text" placeholder="Data Del Documento" id="DataDoc" value="<?php echo date('Y-m-d') ?>" readonly>
+                    <input class="form-control" type="date" placeholder="Data Del Documento" id="DataDoc" value="<?php echo date('Y-m-d') ?>" placeholder="yyyy-mm-dd">
 
                     <label>Numero Documento Rif</label>
                     <input class="form-control" type="text" placeholder="Inserisci Numero Documento Del Fornitore" id="NumeroDocRif" value=""  autocomplete="off">
