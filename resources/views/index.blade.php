@@ -71,7 +71,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a href="<?php echo URL::asset('magazzino/produzione3') ?>" class="media">
+                                <a onclick="$('#modal_crea').modal('show')" class="media">
                                     <div class="media-body">
                                         <h5>CPI</h5>
                                         <p>Carico Produzione Interna</p>
@@ -117,7 +117,39 @@
 
 </div>
 
+<div class="modal" id="modal_crea" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crea Documento (CPI)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
 
+                <div class="modal-body">
+                     <label>Data Documento</label>
+                    <input class="form-control" type="date" placeholder="Data Del Documento" id="DataDoc" value="<?php echo date('Y-m-d') ?>" placeholder="yyyy-mm-dd">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Chiudi</button>
+                    <button type="button" class="btn btn-primary" onclick="crea();">Crea Documento</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function crea(){
+        data = document.getElementById('DataDoc').value;
+        top.location.href="<?php echo URL::asset('magazzino/produzione3') ?>/"+data;
+    }
+</script>
 
 
 <!-- Optional JavaScript -->

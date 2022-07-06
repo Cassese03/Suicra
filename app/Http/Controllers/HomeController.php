@@ -296,7 +296,7 @@ class HomeController extends Controller{
         return View::make('produzione2_tot',compact('documenti', 'cd_do','numero_documento','cd_cf'));
     }
 
-    public function produzione3(Request $request){
+    public function produzione3(Request $request,$date){
 
         $dati = $request->all();
         if(isset($dati['elimina_riga'])) {
@@ -337,7 +337,6 @@ class HomeController extends Controller{
             */
 
         }
-        $date = date('Y-m-d',strtotime('today'));
         $fornitori = DB::select('SELECT * from CF where Fornitore = 1 and Cd_CF = \'FPROD\'');
         $documenti = DB::select('SELECT * from DOTes where Cd_DO = \'CP\' and DataDoc = \''.$date.'\'');
         if(sizeof($documenti)<= 0 ){

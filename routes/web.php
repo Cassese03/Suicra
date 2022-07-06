@@ -34,7 +34,7 @@ Route::any('magazzino/altri', 'HomeController@altri');
 
 Route::any('magazzino/produzione2/{cd_do}', 'HomeController@produzione2');
 Route::any('magazzino/produzione2_tot/{cd_do}', 'HomeController@produzione2_tot');
-Route::any('magazzino/produzione3', 'HomeController@produzione3');
+Route::any('magazzino/produzione3/{data}', 'HomeController@produzione3');
 
 
 
