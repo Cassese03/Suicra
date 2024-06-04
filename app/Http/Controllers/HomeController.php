@@ -453,8 +453,9 @@ class HomeController extends Controller
             }
 
             DB::update("Update DORig set TipoPC = 'P' where Id_DORig = '$Id_DoRig'");
+            DB::delete('DELETE FROM DORig WHERE Id_DOTes = ? and TipoPc = ? and Cd_AR in (SELECT Cd_AR FROM AR where Fittizio = 1 or Obsoleto = 1)', [$Id_DoTes, 'C']);
+
         }
-        DB::SELECT('DELETE FROM DORig WHERE Id_DOTes = ' . $Id_DoTes . ' and Cd_AR in (SELECT Cd_AR FROM AR where Facoltativo = 1 or Obsoleto = 1)');
 
         DB::update("Update dotes set dotes.reserved_1= 'RRRRRRRRRR' where dotes.id_dotes = $Id_DoTes exec asp_DO_End $Id_DoTes");
         DB::statement("exec asp_DO_End $Id_DoTes");
@@ -470,6 +471,7 @@ class HomeController extends Controller
             foreach ($documento->righe as $r) {
                 $r->lotti = DB::select('SELECT * FROM ARLotto WHERE Cd_AR = \'' . $r->Cd_AR . '\' AND DataScadenza > \'' . $date . '\' ORDER BY TimeIns DESC ');
             }
+            DB::delete('DELETE FROM DORig WHERE Id_DOTes = ? and TipoPc = ? and Cd_AR in (SELECT Cd_AR FROM AR where Fittizio = 1 or Obsoleto = 1)', [$id_dotes, 'C']);
             return View::make('produzione3', compact('fornitore', 'id_dotes', 'documento', 'articolo'));
 
         }
